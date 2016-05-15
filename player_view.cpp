@@ -75,24 +75,24 @@ void draw_basic_player_view(struct player_view *v,int nbviews, BITMAP *src_map,P
 
     if(ship->fuel>=ship->max_fuel/2)
     {
-    fuel_col=255-fixtoi(fixmul(itofix(255), fixsub(fixmul(itofix(2), fixdiv(itofix(ship->fuel), itofix(ship->max_fuel)) ), itofix(1)))) ;
-    fuel_col=makecol(fuel_col,255,0);
+        fuel_col=255-fixtoi(fixmul(itofix(255), fixsub(fixmul(itofix(2), fixdiv(itofix(ship->fuel), itofix(ship->max_fuel)) ), itofix(1)))) ;
+        fuel_col=makecol(fuel_col,255,0);
     }
     else
     {
-    fuel_col=255*2*ship->fuel/ship->max_fuel;
-    fuel_col=makecol(255, fuel_col, 0);
+        fuel_col=255*2*ship->fuel/ship->max_fuel;
+        fuel_col=makecol(255, fuel_col, 0);
     }
 
     if(ship->shield_force>=ship->max_shield_force/2)
     {
-    shield_col=255-fixtoi(fixmul(itofix(255), fixsub(fixmul(itofix(2), fixdiv(itofix(ship->shield_force), itofix(ship->max_shield_force)) ), itofix(1)))) ;
-    shield_col=makecol(shield_col, 255, 0);
+        shield_col=255-fixtoi(fixmul(itofix(255), fixsub(fixmul(itofix(2), fixdiv(itofix(ship->shield_force), itofix(ship->max_shield_force)) ), itofix(1)))) ;
+        shield_col=makecol(shield_col, 255, 0);
     }
     else
     {
-    shield_col=255*2*ship->shield_force/ship->max_shield_force;
-    shield_col=makecol(255, shield_col, 0);
+        shield_col=255*2*ship->shield_force/ship->max_shield_force;
+        shield_col=makecol(255, shield_col, 0);
     }
 
     vline(v->back_map_buffer,(v->bordersize/2)+1,v->h+v->bordersize,v->bordersize+(v->h-barheight_fuel),fuel_col);
