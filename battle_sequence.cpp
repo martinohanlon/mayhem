@@ -284,7 +284,7 @@ GameSequence* BattleSequence::doRun()
         
         get_input_clavier(nb_views,keyvaisseau);   // Clavier (only one... the other comes from .net)
 
-        /*#ifdef __NETSUPPORT__
+        #ifdef __NETSUPPORT__
         struct command  *cmdptr=keyvaisseau[0].cmd;
         if (memcmp(&netpadcmd,cmdptr,sizeof(struct command)))
             {
@@ -309,10 +309,12 @@ GameSequence* BattleSequence::doRun()
             }
 
         handle_command(&netpadcmd);
-        #else*/
+        #else
+        
         if(!player_gameover(&players[0]))
             handle_command(keyvaisseau[0].cmd);
-        //#endif
+        #endif
+        
         if(!player_gameover(&players[1]))
             handle_command(keyvaisseau[1].cmd);
 
@@ -411,12 +413,19 @@ GameSequence* BattleSequence::doRun()
             sprintf(reso, "%ix%i", screen_width, screen_height);
             textout(screen,font, reso ,5,17,makecol(200,200,200));
 
+            //debug interupt counter
+            char counter[10];
+            sprintf(counter, "%i", InterruptTimer::timing_counter);
+            textout(screen,font, counter,5,29,makecol(200,200,200));
+
             check_fps=0;
             retrace_count_init=retrace_count;
          }
     #endif
-        
-        //vsync();                                                   // wait the raster
+    #ifdef USE_VSYNC
+        textout(screen, font, "vsync", 5, 41, makecol(200,200,200));
+        vsync();    // wait the raster
+    #endif 
     } // eof while(InterruptTimer())
   } // eof while (isRunning)
   
