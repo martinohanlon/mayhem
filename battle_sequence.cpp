@@ -208,7 +208,7 @@ void BattleSequence::InitAllSpriteGfx()
   for(int i=0;i<nb_players;i++)
     init_vaisseau_data(&vaisseaux[i],&gfx_vaisseaux[i],0.9,0.32,5,1284,1,8,214,2,2);
   // time active, inactive
-  init_option_data(opt, "Option.bmp", 500, 50);
+  init_option_data(opt, "Option.bmp", 49, 150);
 }
 
 void BattleSequence::InitPlayerInfo()
@@ -414,16 +414,15 @@ GameSequence* BattleSequence::doRun()
             textout(screen,font, reso ,5,17,makecol(200,200,200));
 
             //debug interupt counter
-            char counter[10];
+            /*char counter[10];
             sprintf(counter, "%i", InterruptTimer::timing_counter);
-            textout(screen,font, counter,5,29,makecol(200,200,200));
+            textout(screen,font, counter,5,29,makecol(200,200,200));*/
 
             check_fps=0;
             retrace_count_init=retrace_count;
          }
     #endif
     #ifdef USE_VSYNC
-        textout(screen, font, "vsync", 5, 41, makecol(200,200,200));
         vsync();    // wait the raster
     #endif 
     } // eof while(InterruptTimer())
