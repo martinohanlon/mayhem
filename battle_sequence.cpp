@@ -207,8 +207,8 @@ void BattleSequence::InitAllSpriteGfx()
 
   for(int i=0;i<nb_players;i++)
     init_vaisseau_data(&vaisseaux[i],&gfx_vaisseaux[i],0.9,0.32,5,1284,1,8,214,2,2);
-  // time active, inactive
-  init_option_data(opt, "Option.bmp", 49, 150);
+  // time after explosion, time active, time player has
+  init_option_data(opt, "Option.bmp", 49, 150, 1500);
 }
 
 void BattleSequence::InitPlayerInfo()

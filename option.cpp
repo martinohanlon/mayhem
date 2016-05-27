@@ -106,7 +106,7 @@ void init_option(struct option_data *opt, struct level_data *currentlevel, struc
         }
     }
 }
-
+/*
 int take_option(struct option_data *opt, struct vaisseau_data *allv, int nbplayers)
 {
     struct vaisseau_data *v;
@@ -119,6 +119,7 @@ int take_option(struct option_data *opt, struct vaisseau_data *allv, int nbplaye
     }
     return -1;
 }
+*/
 
 void attrib_option(struct option_data *opt, struct vaisseau_data *allv, int test)
 {
@@ -129,6 +130,7 @@ void attrib_option(struct option_data *opt, struct vaisseau_data *allv, int test
         
         //give the ship the option
         v->option_type = opt->type;
+        v->option_expire_time = opt->player_expire_time;
 
         if(opt->type == OPT_MAXFUEL)
             v->fuel = v->max_fuel;
@@ -147,6 +149,26 @@ void attrib_option(struct option_data *opt, struct vaisseau_data *allv, int test
 
 }
 
+void gestion_player_options(struct option_data *opt, struct vaisseau_data *allv, int nbplayers)
+{
+    struct vaisseau_data *v;
+    for(int i=0; i<nbplayers; i++)
+    {
+        v = &allv[i];
+        /* has the players option expired? */
+        if (v->option_type != OPT_NOOPTION)
+            if (v->option_expire_time == 0) v->option_type = OPT_NOOPTION;
+            else --v->option_expire_time;
+        /* has this player taken the option? */
+        if (!v->explode && opt->active)
+            if(abs((v->xpos+16)-(opt->x+6))<=(26+12)/2 && abs((v->ypos+16)-(opt->y+6))<=(28+12)/2)
+                attrib_option(opt, allv, i); 
+    }
+    
+}
+
+
+
 void draw_option(struct option_data *opt, struct level_data *currentlevel)
 {
     if(opt->active)
@@ -162,18 +184,12 @@ void gestion_option(struct option_data *opt, struct level_data *currentlevel, st
 
     init_option(opt, currentlevel, allv, nbplayers);           // init la pos + type de l'option
 
-    if(opt->active)
-    {
-        
-        test = take_option(opt, allv, nbplayers); // -1 = pas prise, sinon num du vaisseau qui prend option
-        attrib_option(opt, allv, test);           // gestion type option avec num vaisseau
+    gestion_player_options(opt, allv, nbplayers);
+    draw_option(opt, currentlevel);       // affiche sprite option
 
-        draw_option(opt, currentlevel);       // affiche sprite option
-
-    }
 }
 
-int init_option_data(struct option_data *opt, char *option_sprite_name, int explode_appear_time, int active_time)
+int init_option_data(struct option_data *opt, char *option_sprite_name, int explode_appear_time, int active_time, int player_expire_time)
 {
     srand(time(NULL));
 
@@ -185,6 +201,7 @@ int init_option_data(struct option_data *opt, char *option_sprite_name, int expl
     opt->y = 0;
     opt->active_time = active_time;
     opt->explode_appear_time = explode_appear_time;
+    opt->player_expire_time = player_expire_time;
 
     opt->option_sprite = load_bitmap(option_sprite_name,opt->option_sprite_colors);
     if(opt->option_sprite) 
