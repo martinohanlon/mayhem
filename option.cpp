@@ -1,30 +1,6 @@
 #include "option.h"
 #include <stdio.h>
 
-/*
-void option_time(struct option_data *opt)
-{
-   if(!opt->active)
-   {
-      if(opt->time_out > opt->inactive_time)
-      {
-      opt->active=true;
-      opt->time_out=0;
-      }
-      else opt->time_out++;
-   }
-   else
-   {
-      if(opt->time_in > opt->active_time)
-      {
-      opt->active=false;
-      opt->time_in=0;
-      }
-      else opt->time_in++;
-   }
-}
-*/
-
 void option_time(struct option_data *opt)
 {
     if(opt->active)
@@ -60,27 +36,6 @@ bool test_pos_option(struct option_data *opt, struct level_data *currentlevel, i
    }
    return(true);
 }
-/*
-void init_option(struct option_data *opt, struct level_data *currentlevel)
-{
-
-   if(opt->time_in==0)
-   {
-   opt->x = rand()%792;
-   opt->y = rand()%1200;
-
-      if(!test_pos_option(opt, currentlevel, opt->x, opt->y))
-      {
-      opt->print_it=false;
-      opt->active=false;
-      opt->time_out = opt->active_time+1;
-      }
-      else opt->print_it=true;
-
-   opt->type = rand()%NB_OPT_TYPE;
-   }
-}
-*/
 
 void init_option(struct option_data *opt, struct level_data *currentlevel, struct vaisseau_data *allv, int nombre_vaisseau)
 {
@@ -106,20 +61,7 @@ void init_option(struct option_data *opt, struct level_data *currentlevel, struc
         }
     }
 }
-/*
-int take_option(struct option_data *opt, struct vaisseau_data *allv, int nbplayers)
-{
-    struct vaisseau_data *v;
-    for(int i=0; i<nbplayers; i++)
-    {
-        v = &allv[i];
-        if (!v->explode)
-            if(abs((v->xpos+16)-(opt->x+6))<=(26+12)/2 && abs((v->ypos+16)-(opt->y+6))<=(28+12)/2)
-                return i;
-    }
-    return -1;
-}
-*/
+
 
 void attrib_option(struct option_data *opt, struct vaisseau_data *allv, int test)
 {

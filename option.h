@@ -22,7 +22,6 @@ struct option_data {
    bool   active;
    int    active_time;
    int    explode_appear_time;
-   //TODO - got here.... implementing option expiry, so the player only has it for a short period of time.
    int    player_expire_time;
    BITMAP *option_sprite;
    PALETTE option_sprite_colors;
