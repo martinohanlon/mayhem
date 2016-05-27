@@ -121,7 +121,6 @@ void draw_option(struct option_data *opt, struct level_data *currentlevel)
 
 void gestion_option(struct option_data *opt, struct level_data *currentlevel, struct vaisseau_data *allv, struct player_view *views, int nbplayers, int nbviews)
 {
-    int test;
     option_time(opt);                         // alternance option active ou pas
 
     init_option(opt, currentlevel, allv, nbplayers);           // init la pos + type de l'option
