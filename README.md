@@ -1,29 +1,76 @@
-Update: 
+#Mayhem 2 
+##Martin O'Hanlon (martin@ohanlonweb.com)
+##http://www.stuffaboutcode.com
 
-I [Martin O'Hanlon](https://github.com/martinohanlon) picked up this port of Mayhem created by [devpack](https://github.com/devpack/mayhem), ported it to the Raspberry Pi [github.com/martinohanlon/mayhem-pi](https://github.com/martinohanlon/mayhem-pi) and added some new features.  
+##Description
+[Mayhem](http://www.lemonamiga.com/games/details.php?id=2972) was originally released as Public Domain / Shareware on the [Amiga](https://en.wikipedia.org/wiki/Amiga). It was ported to the PC in 2002 by [devpack](https://github.com/devpack) and released onto github in 2011 [github.com/devpack/mayhem](https://github.com/devpack/mayhem). 
 
-I intended to keep this fork up to date with any new changes made to the Raspberry Pi version as a mechanism of showing the lineage from the original fork and its useful for testing to have a windows compiled version.
+![Mayhem game image](mayhem.jpg)
 
-Original Readme:
+[Video of the original amiga game](https://www.youtube.com/watch?v=fs30DLGxqhs).
 
-I did (with my friend) this PC version of the game almost 10 years ago (2002), but it's apparently still working good on new PC (tested Windows 7 and Windows XP). We were very carefull to have the same "physic laws" so ship behavior/control is exactly the same as original (all gfx/sounds are the original ones). See original game (by Espen Skoglund): http://hol.abime.net/3853.
+I picked it up from [code.google.com/p/mayhem](https://code.google.com/archive/p/mayhem/) ([New BSD License](https://opensource.org/licenses/BSD-3-Clause)) and with the help of Lee Taylor have added new levels and features.
 
-The goal of this project is to provide code base to people who would like to improve the game or just start another port of it. The code is using the Allegro graphic library (http://alleg.sourceforge.net/).
+[Video 1](https://youtu.be/Vxozz0Ijdr0)
 
-I guess many of old Amiga users had good time with this great game, I lately found again the code browsing an old hard drive, would be too bad if lost forever, so here it is, "as is".
+[Video 2 - new level](https://youtu.be/E3mho6J6OG8)
 
-Controls:
+Mayhem 2 has also been ported to run on the [Raspberry Pi](https://www.raspberrypi.org) - [github.com/martinohanlon/mayhem-pi](https://github.com/martinohanlon/mayhem-pi).  
 
-- Change background maps with 1, 2, 3
+[Blog post](http://www.stuffaboutcode.com/2016/04/mayhem-classic-amiga-game-ported-to.html)
 
-- Player 1: w(z), x, c, v, g
+##Gameplay
 
-- Player 2: left arrow, right arrow, 0(num pad), .(num pad), Enter(num pad)
+Mayhem is a multiplayer (2 - 4) flight shooter with a really simple objective - destroy your opponents before they destroy you.
 
-- Exit: ESC (you may need ALT+TAB)
+Your ship has limited fuel which will run down when you boost, if you run out you will be unable to control your ship, to refuel, land on any flat surface.
 
-NB: The executable can be downloaded from: https://raw.githubusercontent.com/devpack/mayhem/master/wiki/mayhem_windows_V1.0.zip (MD5=8f9ee84053d4aa8ebfb82c182f44ee79)
+You can protect yourself from attack using your shields which will stop all bullets, be careful though your shields run down quickly and you wont be able to boost while your shields are on. 
 
-PC version screenshot: 
+Powerups are dropped (sometimes) when a player is destroyed (by either crashing or being shot) and when collected will give you a temporary boost.
 
-![alt tag](https://raw.githubusercontent.com/devpack/mayhem/master/wiki/mayhem.jpg)
+###Options
+
+Levels 1-3 are the original game levels, all other levels are new to Mayhem 2.
+
+DCA are anti spaceship guns which will fire at the player if they get too close.
+
+Wall collision can be turned off for new players to get used to the controls and playing the game.
+
+##Keys
+
+Player 1 - z, x, c, v, g 
+
+Player 2 - left, right, pad del, pad 0, pad enter
+
+Player 3 - b, n, 'comma', m, l
+
+Player 4 - y, u, o, i, 0
+
+##Install
+
+Download the zip file from [https://github.com/martinohanlon/mayhem/archive/master.zip](https://github.com/martinohanlon/mayhem/archive/master.zip), open and copy mayhem-master to a folder. 
+
+##Run
+
+Double click Mayhem2.exe in the mayhem-master folder. 
+
+You maybe presented with message saying that the application was stopped from starting as it is unrecognised, click 'more info' and and choose 'run anyway'. 
+
+##Compile
+
+Mayhem2 is compiled with [mingw](http://www.mingw.org/), use mingw32-make to build, paths in the MakeFile may need to be changed.
+
+##Version history
+* beta - compiles, runs, ongoing mods
+* 0.1 - added new levels and features
+* 0.2 - seamless warping across map edges
+* 0.4 - menu changes + new 'option' (powerup) changes
+* 0.5 - timing and powerups are now dropped when players explode
+
+##Contributors
+[Anthony Prieur](https://github.com/devpack)
+
+[Martin O'Hanlon](https://github.com/martinohanlon)
+
+Lee Taylor
