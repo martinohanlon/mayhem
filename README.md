@@ -49,23 +49,17 @@ Player 4 - y, u, o, i, 0
 
 ##Install
 
-```
-sudo apt-get install liballegro4.4 liballegro4-dev
-git clone https://github.com/martinohanlon/mayhem-pi
-```
+Download the zip file from [https://github.com/martinohanlon/mayhem/archive/master.zip](https://github.com/martinohanlon/mayhem/archive/master.zip), open and copy mayhem-master to a folder. 
 
 ##Run
 
-```
-cd mayhem-pi
-./start
-```
+Double click Mayhem2.exe in the mayhem-master folder. 
+
+You maybe presented with message saying that the application was stopped from starting as it is unrecognised, click 'more info' and and choose 'run anyway'. 
 
 ##Compile
-```
-cd mayhem-pi
-make
-```
+
+Mayhem2 is compiled with [mingw](http://www.mingw.org/), use mingw32-make to build, paths in the MakeFile may need to be changed.
 
 ##Version history
 * beta - compiles, runs, ongoing mods
