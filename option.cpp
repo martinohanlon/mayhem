@@ -59,7 +59,6 @@ void init_option(struct option_data *opt, struct level_data *currentlevel, struc
                     opt->x = x;
                     opt->y = y;
                     opt->type = rand() % NB_OPT_TYPE + 1;
-                    opt->type = OPT_THRUST;
                     continue;
             }
         }
