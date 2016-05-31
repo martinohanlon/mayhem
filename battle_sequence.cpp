@@ -197,15 +197,15 @@ void BattleSequence::InitAllSpriteGfx()
                                                 "ship1_shield_256c.bmp");
     init_vaisseau_gfx_from_file(&gfx_vaisseaux[1],"ship2_256c.bmp",
                                                 "ship2_thrust_256c.bmp",
-                                                "ship1_thrust2_256c.bmp",
+                                                "ship2_thrust2_256c.bmp",
                                                 "ship2_shield_256c.bmp");
     init_vaisseau_gfx_from_file(&gfx_vaisseaux[2],"ship3_256c.bmp",
                                                 "ship3_thrust_256c.bmp",
-                                                "ship1_thrust2_256c.bmp",
+                                                "ship3_thrust2_256c.bmp",
                                                 "ship3_shield_256c.bmp");
     init_vaisseau_gfx_from_file(&gfx_vaisseaux[3],"ship4_256c.bmp",
                                                 "ship4_thrust_256c.bmp",
-                                                "ship1_thrust2_256c.bmp",
+                                                "ship4_thrust2_256c.bmp",
                                                 "ship4_shield_256c.bmp");
     init_sprite_explosion("Sprite_explosion.bmp");
 
