@@ -68,6 +68,7 @@ Mayhem2 is compiled with [mingw](http://www.mingw.org/), use mingw32-make to bui
 * 0.4 - menu changes + new 'option' (powerup) changes
 * 0.5 - timing and powerups are now dropped when players explode
 * 0.6 - new thrust powerup + bug fix
+* 0.7 - level structure changes
 
 ##Contributors
 [Anthony Prieur](https://github.com/devpack)
