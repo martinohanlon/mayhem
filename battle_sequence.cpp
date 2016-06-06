@@ -202,14 +202,14 @@ void BattleSequence::InitMappingAndControls()
 {
     // init command
     // Here we have to pad the right keys
-    init_mapping_key(&keyvaisseau[1],&commands[1],KEY_LEFT,KEY_RIGHT,KEY_DEL_PAD,KEY_0_PAD,KEY_ENTER_PAD);
-    init_mapping_key(&keyvaisseau[0],&commands[0],KEY_Z,KEY_X,KEY_V,KEY_C,KEY_G);
-
+    init_mapping_key(&keyvaisseau[0],&commands[0],0);
+    init_mapping_key(&keyvaisseau[1],&commands[1],1);
+    
     if(nb_views>=3)
-        init_mapping_key(&keyvaisseau[2],&commands[2],KEY_B,KEY_N,KEY_COMMA,KEY_M,KEY_L);
+        init_mapping_key(&keyvaisseau[2],&commands[2],2);
 
     if(nb_views>=4)
-        init_mapping_key(&keyvaisseau[3],&commands[3],KEY_Y,KEY_U,KEY_O,KEY_I,KEY_0);
+        init_mapping_key(&keyvaisseau[3],&commands[3],3);
 
     commands[0].controlled_ship=&vaisseaux[0];
     commands[1].controlled_ship=&vaisseaux[1];
@@ -249,12 +249,12 @@ void BattleSequence::InitAllSpriteGfx()
 
 void BattleSequence::InitPlayerInfo()
 {
-  // init player info
-  char *defplayername[] = { "Player 1" , "Player 2" , "Player 3" , "Player 4" };
-  for(int i=0;i<nb_players;i++)
+    // init player info
+    char *defplayername[] = { "Player 1" , "Player 2" , "Player 3" , "Player 4" };
+    for(int i=0;i<nb_players;i++)
     {
-    init_player_info(&players[i],defplayername[i],nb_lives,&vaisseaux[i]);
-	init_ship_pos_from_platforms(&vaisseaux[i],&(currentlevel->platformdata[i]));
+        init_player_info(&players[i],defplayername[i],nb_lives,&vaisseaux[i]);
+        init_ship_pos_from_platforms(&vaisseaux[i],&(currentlevel->platformdata[i]));
     }
 }
 
