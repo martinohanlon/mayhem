@@ -6,9 +6,8 @@ int key_sets[4][5] = { {KEY_Z,KEY_X,KEY_V,KEY_C,KEY_G},
                        {KEY_B,KEY_N,KEY_COMMA,KEY_M,KEY_L},
                        {KEY_Y,KEY_U,KEY_O,KEY_I,KEY_0} };
 
-void init_mapping_key(struct mapping_key* keymap, struct command *cmd, int keysetno)
+void init_mapping_key(struct mapping_key* keymap, int keysetno)
 {
-    keymap->cmd = cmd;
 		keymap->left = key_sets[keysetno][0];
     keymap->right = key_sets[keysetno][1];
     keymap->thrust = key_sets[keysetno][2];

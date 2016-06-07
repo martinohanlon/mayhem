@@ -201,22 +201,35 @@ void BattleSequence::InitLevelData()
 void BattleSequence::InitMappingAndControls()
 {
     // init command
+    
     // Here we have to pad the right keys
-    init_mapping_key(&keyvaisseau[0],&commands[0],0);
-    init_mapping_key(&keyvaisseau[1],&commands[1],1);
+    init_mapping_key(&keyvaisseau[0], 0);
+    init_mapping_key(&keyvaisseau[1], 1);
     
     if(nb_views>=3)
-        init_mapping_key(&keyvaisseau[2],&commands[2],2);
+        init_mapping_key(&keyvaisseau[2], 2);
 
     if(nb_views>=4)
-        init_mapping_key(&keyvaisseau[3],&commands[3],3);
+        init_mapping_key(&keyvaisseau[3], 3);
 
+    // Map commands to controls
     commands[0].controlled_ship=&vaisseaux[0];
+    commands[0].keymap = &keyvaisseau[0];
+    commands[0].control_type = CONTROL_KEY;
+    
     commands[1].controlled_ship=&vaisseaux[1];
+    commands[1].keymap = &keyvaisseau[1];
+    commands[1].control_type = CONTROL_KEY;
+    
     if(nb_views>=3)
         commands[2].controlled_ship=&vaisseaux[2];
+        commands[2].keymap = &keyvaisseau[2];
+        commands[2].control_type = CONTROL_KEY;
+    
     if(nb_views>=4)
         commands[3].controlled_ship=&vaisseaux[3];
+        commands[3].keymap = &keyvaisseau[3];
+        commands[3].control_type = CONTROL_KEY;
 }
 
 void BattleSequence::InitAllSpriteGfx()
@@ -320,7 +333,12 @@ GameSequence* BattleSequence::doRun()
             break;
         }
         
-        get_input_clavier(nb_views,keyvaisseau);   // Clavier (only one... the other comes from .net)
+        get_control_input(nb_players, commands);
+        /*get_key_input(&commands[0]);
+        get_key_input(&commands[1]);
+        get_key_input(&commands[2]);
+        get_key_input(&commands[3]);*/
+        //get_input_clavier(nb_views,keyvaisseau);   // Clavier (only one... the other comes from .net)
 
         #ifdef __NETSUPPORT__
         struct command  *cmdptr=keyvaisseau[0].cmd;
@@ -350,19 +368,23 @@ GameSequence* BattleSequence::doRun()
         #else
         
         if(!player_gameover(&players[0]))
-            handle_command(keyvaisseau[0].cmd);
+            //handle_command(keyvaisseau[0].cmd);
+            handle_command(&commands[0]);
         #endif
         
         if(!player_gameover(&players[1]))
-            handle_command(keyvaisseau[1].cmd);
+            //handle_command(keyvaisseau[1].cmd);
+            handle_command(&commands[1]);
 
         if(nb_views>=3)
             if(!player_gameover(&players[2]))
-                handle_command(keyvaisseau[2].cmd);
+                //handle_command(keyvaisseau[2].cmd);
+                handle_command(&commands[2]);
 
         if(nb_views>=4)
             if(!player_gameover(&players[3]))
-                handle_command(keyvaisseau[3].cmd);
+                //handle_command(keyvaisseau[3].cmd);
+                handle_command(&commands[3]);
                 
         calcul_pos(moon_physics,nb_players,vaisseaux,currentlevel->platformdata,currentlevel->nbplatforms);  // Position
         fuel_shield_calcul(nb_players,vaisseaux);
