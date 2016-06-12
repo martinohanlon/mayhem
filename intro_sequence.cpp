@@ -2,9 +2,23 @@
 #include "intro_sequence.h"
 #include "battle_sequence.h"
 
-
 const int IntroSequence::mini=150;
 const int IntroSequence::maxi=400;
+
+// Classic joystick controls
+/*int *joy_sets[4][5] = { {&joy[0].stick[0].axis[0].d1, &joy[0].stick[0].axis[0].d2, &joy[0].stick[0].axis[1].d1, &joy[0].stick[0].axis[1].d2, &joy[0].button[0].b},
+                        {&joy[1].stick[0].axis[0].d1, &joy[1].stick[0].axis[0].d2, &joy[1].stick[0].axis[1].d1, &joy[1].stick[0].axis[1].d2, &joy[1].button[0].b},
+                        {&joy[2].stick[0].axis[0].d1, &joy[2].stick[0].axis[0].d2, &joy[2].stick[0].axis[1].d1, &joy[2].stick[0].axis[1].d2, &joy[2].button[0].b},
+                        {&joy[3].stick[0].axis[0].d1, &joy[3].stick[0].axis[0].d2, &joy[3].stick[0].axis[1].d1, &joy[3].stick[0].axis[1].d2, &joy[3].button[0].b} };*/
+
+int *joy_sets[4][5] = { {&joy[0].stick[0].axis[0].d1, &joy[0].stick[0].axis[0].d2, &joy[0].button[0].b, &joy[0].button[1].b, &joy[0].button[5].b},
+                        {&joy[1].stick[0].axis[0].d1, &joy[1].stick[0].axis[0].d2, &joy[1].button[0].b, &joy[1].button[1].b, &joy[1].button[5].b},
+                        {&joy[2].stick[0].axis[0].d1, &joy[2].stick[0].axis[0].d2, &joy[2].button[0].b, &joy[2].button[1].b, &joy[2].button[5].b},
+                        {&joy[3].stick[0].axis[0].d1, &joy[3].stick[0].axis[0].d2, &joy[3].button[0].b, &joy[3].button[1].b, &joy[3].button[5].b} };
+
+// 0 - 3 : keyboard 
+// 4 - 7 : joysticks 
+int playercontrols[4] = {0, 1, 2, 3};
 
 IntroSequence::IntroSequence(GameSequence* previous, float zoom, float zoomspeed, int players, int level, int lives, bool dca, bool wall)
 	: GameSequence(previous)
@@ -46,6 +60,22 @@ GameSequence* IntroSequence::doRun()
 	clear_bitmap(screen);
 	InterruptTimer::start();
 
+    //setup joysticks    
+    install_joystick(JOY_TYPE_AUTODETECT);
+    if (num_joysticks) 
+    {
+        // setup player_controls based on number of joysticks, if there are joysticks use them first, otherwise use keyboard
+        int playercontrol;
+        for (playercontrol = 0; playercontrol < num_joysticks; playercontrol++)
+        {
+            playercontrols[playercontrol] = 4 + playercontrol;
+        }
+        for (playercontrol = num_joysticks; playercontrol < NB_MAX_PLAYERS; playercontrol++)
+        {
+            playercontrols[playercontrol] = playercontrol - num_joysticks;
+        }
+    }
+    
 	do
 	{
 //		while(InterruptTimer::wasTriggered()) {
@@ -75,8 +105,8 @@ GameSequence* IntroSequence::doRun()
                 quickExit=true;
                 isRunning=false;
                 }
-            vsync();
-//		}
+                vsync();
+ //		}
 	} while(isRunning);
 	InterruptTimer::reset();
 
@@ -93,6 +123,18 @@ GameSequence* IntroSequence::doRun()
         
         while(!startgame && !exit)
         {
+            if (num_joysticks) poll_joystick();
+            // joystick debug
+            /*if (num_joysticks) 
+            {
+                char debugtext[20];
+                sprintf(debugtext, "   %i %i  ", joy[0].num_sticks, joy[0].num_buttons);
+                textout(screen,font, debugtext,5,29,makecol(200,200,200));
+                sprintf(debugtext, "   %i %i %i %i %i %i %i %i %i %i ", joy[0].button[0].b, joy[0].button[1].b, joy[0].button[2].b, joy[0].button[3].b, joy[0].button[4].b, joy[0].button[5].b, joy[0].button[6].b, joy[0].button[7].b, joy[0].button[8].b, joy[0].button[9].b);
+                textout(screen,font, debugtext,5,39,makecol(200,200,200));
+                sprintf(debugtext, "   %i %i %i %i ", joy[0].stick[0].axis[0].d1, joy[0].stick[0].axis[0].d2,  joy[0].stick[0].axis[1].d1, joy[0].stick[0].axis[1].d2);
+                textout(screen,font, debugtext,5,49,makecol(200,200,200));
+            }*/
 
             if(tempo++ == 50)
                 {
@@ -107,11 +149,6 @@ GameSequence* IntroSequence::doRun()
                 break;
                 exit = true;
                 }
-            /*if (key[KEY_ENTER])
-                {
-                choice=2;
-                break;
-                }*/
             if (key[KEY_F2])
                 {
                 playerschoice=2;
@@ -135,7 +172,7 @@ GameSequence* IntroSequence::doRun()
                 levelchoice += 1;
                 if(levelchoice == NB_LEVELS) levelchoice = 0;
                 //short rest to stop multiple key presses
-                rest(100);
+                rest(50);
                 }
             if (key[KEY_MINUS_PAD] || key[KEY_MINUS_PAD])
                 {
@@ -160,12 +197,12 @@ GameSequence* IntroSequence::doRun()
             if (key[KEY_DOWN] || key[KEY_X])
             {
                 if (menuselected < menuitems - 1) menuselected++;
-                rest(100);
+                rest(50);
             }
             if (key[KEY_UP] || key[KEY_Z])
             {
                 if (menuselected > 0) menuselected--;
-                rest(100);  
+                rest(50);  
             }
             if (key[KEY_LEFT] || key[KEY_C])
             {
@@ -187,7 +224,7 @@ GameSequence* IntroSequence::doRun()
                         wallchoice = !wallchoice;
                         break;
                 }
-                rest(100);
+                rest(50);
             }
             if (key[KEY_RIGHT] || key[KEY_V])
             {
@@ -207,9 +244,11 @@ GameSequence* IntroSequence::doRun()
                         break;
                     case 5:
                         wallchoice = !wallchoice;
+                        joy_sets[0][4] = &joy[0].button[0].b;
+
                         break;
                 }
-                rest(100);
+                rest(50);
             }
             if (key[KEY_ENTER] || key[KEY_G])
             {
@@ -237,7 +276,7 @@ GameSequence* IntroSequence::doRun()
                         wallchoice = !wallchoice;
                         break;
                 }
-                rest(100);
+                rest(50);
             }
 
             textout_centre(screen, font, "Press F2/F3/F4 to play for 2/3/4 players or ESC to leave", INTRO_SCREEN_WIDTH/2, maxi+5, currentcolor);
@@ -270,7 +309,7 @@ GameSequence* IntroSequence::doRun()
 	if (startgame)
 		{
 		iZoom=iZoomMax;
-		seq=new BattleSequence(this, playerschoice, playerschoice, liveschoice, levelchoice, dcachoice, wallchoice, width, height);
+		seq=new BattleSequence(this, playerschoice, playerschoice, liveschoice, levelchoice, dcachoice, wallchoice, width, height, playercontrols, joy_sets);
 		}
 	else
 		seq=ReturnScreen();
