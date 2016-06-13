@@ -116,7 +116,7 @@ GameSequence* IntroSequence::doRun()
         {
             if (num_joysticks) poll_joystick();
             // joystick debug
-            if (num_joysticks) 
+            /*if (num_joysticks) 
             {
                 char debugtext[20];
                 sprintf(debugtext, "   %i %i  ", joy[0].num_sticks, joy[0].num_buttons);
@@ -125,7 +125,7 @@ GameSequence* IntroSequence::doRun()
                 textout(screen,font, debugtext,5,39,makecol(200,200,200));
                 sprintf(debugtext, "   %i %i %i %i ", joy[0].stick[0].axis[0].d1, joy[0].stick[0].axis[0].d2,  joy[0].stick[0].axis[1].d1, joy[0].stick[0].axis[1].d2);
                 textout(screen,font, debugtext,5,49,makecol(200,200,200));
-            }
+            }*/
 
             if (key[KEY_ESC])
                 {
