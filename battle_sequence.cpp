@@ -316,7 +316,8 @@ GameSequence* BattleSequence::doRun()
   while(isRunning)
   {
     while(InterruptTimer::wasTriggered()) {
-        if(key[KEY_ESC] || Gameover())
+        // TODO - refactor - bit of a hack button 6 is back on an xbox 360 controller!
+        if(key[KEY_ESC]  || joy[0].button[6].b || Gameover())
         {
             isRunning=false;
             break;

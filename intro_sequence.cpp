@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <algorithm>
 #include "intro_sequence.h"
 #include "battle_sequence.h"
 
@@ -78,7 +79,7 @@ GameSequence* IntroSequence::doRun()
     
 	do
 	{
-//		while(InterruptTimer::wasTriggered()) {
+	//	while(InterruptTimer::wasTriggered()) {
             iZoom=fixsub(iZoom,iZoomSpeed);
             if (fixtof(iZoom)<1.0)
                 {
@@ -99,12 +100,12 @@ GameSequence* IntroSequence::doRun()
                 isRunning=false;
                 }
                 vsync();
- //		}
+	//	}
 	} while(isRunning);
 	InterruptTimer::reset();
 
 	bool startgame = false;
-    bool exit = false;
+    bool exit = false;    
 
 	if (!quickExit)
 	{
@@ -119,15 +120,21 @@ GameSequence* IntroSequence::doRun()
             /*if (num_joysticks) 
             {
                 char debugtext[20];
-                sprintf(debugtext, "   %i %i  ", joy[0].num_sticks, joy[0].num_buttons);
+                sprintf(debugtext, "   %i %i %i ", joy[0].num_sticks, joy[0].num_buttons, joy[0].stick[0].num_axis);
                 textout(screen,font, debugtext,5,29,makecol(200,200,200));
-                sprintf(debugtext, "   %i %i %i %i %i %i %i %i %i %i ", joy[0].button[0].b, joy[0].button[1].b, joy[0].button[2].b, joy[0].button[3].b, joy[0].button[4].b, joy[0].button[5].b, joy[0].button[6].b, joy[0].button[7].b, joy[0].button[8].b, joy[0].button[9].b);
+                sprintf(debugtext, "   %i %i %i %i %i %i %i %i %i %i %i ", joy[0].button[0].b, joy[0].button[1].b, joy[0].button[2].b, joy[0].button[3].b, joy[0].button[4].b, joy[0].button[5].b, joy[0].button[6].b, joy[0].button[7].b, joy[0].button[8].b, joy[0].button[9].b, joy[0].button[9].b);
                 textout(screen,font, debugtext,5,39,makecol(200,200,200));
-                sprintf(debugtext, "   %i %i %i %i ", joy[0].stick[0].axis[0].d1, joy[0].stick[0].axis[0].d2,  joy[0].stick[0].axis[1].d1, joy[0].stick[0].axis[1].d2);
+                sprintf(debugtext, "   %i %i %i %i ", joy[0].stick[1].axis[0].d1, joy[0].stick[1].axis[0].d2, joy[0].stick[1].axis[1].d1, joy[0].stick[1].axis[1].d2);
                 textout(screen,font, debugtext,5,49,makecol(200,200,200));
+                sprintf(debugtext, "   %i    %i    ", joy[0].stick[1].axis[0].pos, joy[0].stick[1].axis[1].pos);
+                textout(screen,font, debugtext,5,59,makecol(200,200,200));
+                sprintf(debugtext, "   %s             ", joy[0].stick[1].axis[0].name);
+                textout(screen,font, debugtext,5,69,makecol(200,200,200));
+                
             }*/
 
-            if (key[KEY_ESC])
+            // TODO - refactor - bit of a hack button 6 is back on an xbox 360 controller!
+            if (key[KEY_ESC] || joy[0].button[6].b)
                 {
                 break;
                 exit = true;
@@ -399,18 +406,37 @@ int *IntroSequence::get_joystick_action(int joystickno)
 {
     bool got_action = false;
     int stickno, axisno, buttonno;
+    int *checkaxis[100];
+    int checkaxiscount = 0;
+
+    poll_joystick();
+    // find all the axis which are false as if an axis is already at true we will ignore it, as its probably an inverse analogue trigger (or one already selected)
+    for (stickno = 0; stickno < joy[joystickno].num_sticks; stickno++)
+    {
+        // loop through axis
+        for (axisno = 0; axisno < joy[joystickno].stick[stickno].num_axis; axisno++)
+        {
+            if (!joy[joystickno].stick[stickno].axis[axisno].d1) 
+            {
+                checkaxis[checkaxiscount] = &joy[joystickno].stick[stickno].axis[axisno].d1;
+                checkaxiscount++;
+            }
+            if (!joy[joystickno].stick[stickno].axis[axisno].d2) 
+            {
+                checkaxis[checkaxiscount] = &joy[joystickno].stick[stickno].axis[axisno].d2;
+                checkaxiscount++;
+            }
+
+        }
+    }
+
     while (!got_action)
     {
         poll_joystick();
-        // loop through sticks
-        for (stickno = 0; stickno < joy[joystickno].num_sticks; stickno++)
+        // loop through axis
+        for (axisno = 0; axisno < checkaxiscount; axisno++)
         {
-            // loop through axis
-            for (axisno = 0; axisno < joy[joystickno].stick[stickno].num_axis; axisno++)
-            {
-                if (joy[joystickno].stick[stickno].axis[axisno].d1) return &joy[joystickno].stick[stickno].axis[axisno].d1;
-                if (joy[joystickno].stick[stickno].axis[axisno].d2) return &joy[joystickno].stick[stickno].axis[axisno].d2;
-            }
+            if (*checkaxis[axisno]) return checkaxis[axisno];
         }
         // loop through buttons
         for (buttonno = 0; buttonno < joy[joystickno].num_buttons; buttonno++)
@@ -418,5 +444,4 @@ int *IntroSequence::get_joystick_action(int joystickno)
             if (joy[joystickno].button[buttonno].b) return &joy[joystickno].button[buttonno].b;
         }
     }
-    
 }
