@@ -210,6 +210,7 @@ void init_tir(struct vaisseau_data *v)
 void plot_tir(struct vaisseau_data *v, struct level_data *currentlevel)
 {
      struct tir_data *shoot;
+     
      for (int i=0; i<MAX_TIR; i++)
      {
         shoot = &v->tir[i];

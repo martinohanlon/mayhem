@@ -165,7 +165,6 @@ void BattleSequence::InitLevelData()
     switch(level_no) 
     {
         case 0:
-            // TODO - why doesnt makecol(255, 255, 255) create the right colour?
             init_level_data(&levels[0],"assets/level1/Mayhem_Level1_Map_256c.bmp", "assets/level1/Mini_map1.bmp", "assets/level1/Mayhem_Level1_Map_256c.bmp", platforms1, numplatforms1, edgedata, shipsassets, "assets/default/Sprite_explosion.bmp", use_dca, wall_collision, particle_color_rgb);
                                                 // x    y  area  delay
             init_level_dca(&(&levels[0])->alldca[0], 766, 85, 150, 25);
