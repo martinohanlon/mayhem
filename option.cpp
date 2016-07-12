@@ -19,13 +19,13 @@ bool test_pos_option(struct option_data *opt, int opt_type, struct level_data *c
 {
    unsigned long address_bmp;
    unsigned char pixelcolor;
-   bmp_select(currentlevel->bitmap);
+   bmp_select(currentlevel->collision_bitmap);
    int ligne;
 
-   for(ligne=0; ligne < opt->option_sprites[opt_type].sprite->h; ligne++)
+   for(ligne=0; ligne < opt->option_sprites[opt_type - 1].sprite->h; ligne++)
    {
       address_bmp = bmp_read_line(currentlevel->collision_bitmap, ligne + y);
-      for(int colonne=0; colonne < opt->option_sprites[opt_type].sprite->w; colonne++)
+      for(int colonne=0; colonne < opt->option_sprites[opt_type - 1].sprite->w; colonne++)
       {
       pixelcolor = bmp_read8(address_bmp + colonne + x);
       if ((currentlevel->colormap[pixelcolor].r !=0) ||
