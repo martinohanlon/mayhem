@@ -35,6 +35,7 @@ struct level_ship_assets shipsassets[4] =
       {"assets/default/ship4_256c.bmp", "assets/default/ship4_thrust_256c.bmp", "assets/default/ship4_thrust2_256c.bmp", "assets/default/ship4_shield_256c.bmp",
        "assets/default/sfx_boom.WAV", "assets/default/sfx_loop_refuel.WAV", "assets/default/sfx_loop_shield.WAV", "assets/default/sfx_loop_thrust.WAV", "assets/default/sfx_rebound.WAV", "assets/default/sfx_shoot.WAV"} };
 int particle_color_rgb[3] = {255, 255, 255};
+struct option_sprite option_sprites[NB_OPT_TYPE] = { {"assets/default/Option1.bmp"}, {"assets/default/Option2.bmp"}, {"assets/default/Option3.bmp"}, {"assets/default/Option4.bmp"}, {"assets/default/Option5.bmp"} }; 
 
 //LEVEL 2
 struct platform_data platforms2[] =
@@ -247,7 +248,7 @@ void BattleSequence::InitAllSpriteGfx()
                            VAISSEAU_SPEED_SHIELD_FORCE_UP);
         
     // time after explosion, time active, time player has
-    init_option_data(opt, "assets/default/Option.bmp", 49, 150, 1500);
+    init_option_data(opt, option_sprites, 49, 150, 1500);
 }
 
 void BattleSequence::InitPlayerInfo()
