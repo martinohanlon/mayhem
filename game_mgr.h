@@ -26,11 +26,12 @@ private:
 class GameManager
 {
 public:
-   static void Init();
-   static void Shutdown();
-   static void Run(GameSequence *aSeq);
+    static void Init();
+    static void Shutdown();
+    static void Run(GameSequence *aSeq);
+    static int display_width;
+    static int display_height;
 };
-
 
 class InterruptTimer
 {

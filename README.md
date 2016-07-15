@@ -87,6 +87,7 @@ Mayhem2 is compiled with [mingw](http://www.mingw.org/), use mingw32-make to bui
 * 0.7 - level structure changes
 * 0.8 - joystick control
 * 0.9 - new powerup icons
+* 0.10 - screen resolution & perf improvements 
 
 ##Contributors
 [Anthony Prieur](https://github.com/devpack)

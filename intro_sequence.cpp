@@ -22,19 +22,18 @@ int *joy_sets[4][5] = { {&joy[0].stick[0].axis[0].d1, &joy[0].stick[0].axis[0].d
 // 4 - 7 : joysticks 
 int playercontrols[4] = {0, 1, 2, 3};
 
-
 IntroSequence::IntroSequence(GameSequence* previous, float zoom, float zoomspeed, int players, int level, int lives, bool dca, bool wall)
 	: GameSequence(previous)
 {
-	iLogo=load_bitmap("assets/intro/intro_logo.bmp",iLogoPalette);
+	width = GameManager::display_width;
+	height = GameManager::display_height;
+    
+    iLogo=load_bitmap("assets/intro/intro_logo.bmp",iLogoPalette);
 	iZoomMax=iZoom=ftofix(zoom);
 	iZoomSpeed=ftofix(zoomspeed);
-	iDoublebuffer=create_bitmap(INTRO_SCREEN_WIDTH,maxi-mini);
+	iDoublebuffer=create_bitmap(width,maxi-mini);
 
-	width = DEFAULT_WIDTH;
-	height = DEFAULT_HEIGHT;
-    
-    playerschoice = players;
+	playerschoice = players;
     levelchoice = level;
     liveschoice = lives;
     dcachoice = dca;
@@ -89,10 +88,10 @@ GameSequence* IntroSequence::doRun()
             clear_bitmap(iDoublebuffer);
             DrawZoomedLogoInCenter(mini,maxi);
             // draw 2 horizontal lines
-            hline(iDoublebuffer, 0,0,INTRO_SCREEN_WIDTH,makecol(255,255,255));
-            hline(iDoublebuffer, 0,IntroSequence::maxi-IntroSequence::mini-1,INTRO_SCREEN_WIDTH,makecol(255,255,255));
+            hline(iDoublebuffer, 0,0,width,makecol(255,255,255));
+            hline(iDoublebuffer, 0,IntroSequence::maxi-IntroSequence::mini-1,width,makecol(255,255,255));
             // blit to the screen
-            blit(iDoublebuffer,screen,0,0,0,mini,INTRO_SCREEN_WIDTH,maxi-mini);
+            blit(iDoublebuffer,screen,0,0,0,mini,width,maxi-mini);
 
             if (key[KEY_ESC]&&canQuickExit)
                 {
@@ -157,7 +156,7 @@ GameSequence* IntroSequence::doRun()
                 startgame = true;
                 break;
                 }
-            if (key[KEY_MINUS_PAD] || key[KEY_MINUS_PAD])
+/*            if (key[KEY_MINUS_PAD] || key[KEY_MINUS_PAD])
                 {
                 width = 800;
                 height = 600;
@@ -174,7 +173,7 @@ GameSequence* IntroSequence::doRun()
                 width = 1024;
                 height = 768;
                 set_gfx_mode( GFX_AUTODETECT, width, height, 0, 0 );
-                }
+                }*/
                 
             //menu control
             if (key[KEY_DOWN] || joy[0].stick[0].axis[1].d2)
@@ -278,39 +277,39 @@ GameSequence* IntroSequence::doRun()
                 rest(50);
             }
 
-            textout(screen, font, "Press F2/F3/F4 to play for 2/3/4 players or ESC to leave", INTRO_SCREEN_WIDTH/4, maxi+5, red);
+            textout(screen, font, "Press F2/F3/F4 to play for 2/3/4 players or ESC to leave", width/4, maxi+5, red);
             
-            textout(screen, font, "Use arrow keys and enter:", INTRO_SCREEN_WIDTH/4, maxi+15, red);
+            textout(screen, font, "Use arrow keys and enter:", width/4, maxi+15, red);
 
-            textout(screen, font, "Start game", INTRO_SCREEN_WIDTH/3, maxi+30, ((menuselected == 0) ? lightred : red));
+            textout(screen, font, "Start game", width/3, maxi+30, ((menuselected == 0) ? lightred : red));
             
-            textout(screen, font, "Options:", INTRO_SCREEN_WIDTH/3, maxi+45, red);
+            textout(screen, font, "Options:", width/3, maxi+45, red);
             snprintf(menutext, sizeof(menutext), "   Players - %d   ", playerschoice);
-            textout(screen, font, menutext, INTRO_SCREEN_WIDTH/3, maxi+55, ((menuselected == 1) ? lightred : red));
+            textout(screen, font, menutext, width/3, maxi+55, ((menuselected == 1) ? lightred : red));
             
             snprintf(menutext, sizeof(menutext), "   Level - %d   ", levelchoice + 1);
-            textout(screen, font, menutext, INTRO_SCREEN_WIDTH/3, maxi+65, ((menuselected == 2) ? lightred : red));
+            textout(screen, font, menutext, width/3, maxi+65, ((menuselected == 2) ? lightred : red));
             
             snprintf(menutext, sizeof(menutext), "   Lives - %d   ", liveschoice);
-            textout(screen, font, menutext, INTRO_SCREEN_WIDTH/3, maxi+75, ((menuselected == 3) ? lightred : red));
+            textout(screen, font, menutext, width/3, maxi+75, ((menuselected == 3) ? lightred : red));
             
             snprintf(menutext, sizeof(menutext), "   Use DCA - %s   ", ((dcachoice) ? "yes" : "no" ));
-            textout(screen, font, menutext, INTRO_SCREEN_WIDTH/3, maxi+85, ((menuselected == 4) ? lightred : red));
+            textout(screen, font, menutext, width/3, maxi+85, ((menuselected == 4) ? lightred : red));
             
             snprintf(menutext, sizeof(menutext), "   Wall Collision - %s   ", ((wallchoice) ? "yes" : "no" ));
-            textout(screen, font, menutext, INTRO_SCREEN_WIDTH/3, maxi+95, ((menuselected == 5) ? lightred : red));
+            textout(screen, font, menutext, width/3, maxi+95, ((menuselected == 5) ? lightred : red));
             
-            textout(screen, font, "Controls:", INTRO_SCREEN_WIDTH/3, maxi+110, red);
+            textout(screen, font, "Controls:", width/3, maxi+110, red);
             snprintf(menutext, sizeof(menutext), "   Player 1 - %s   ", (playercontrols[0] > 3 ? "Joystick" : "Keyboard"));
-            textout(screen, font, menutext, INTRO_SCREEN_WIDTH/3, maxi+120, ((menuselected == 6) ? lightred : red));
+            textout(screen, font, menutext, width/3, maxi+120, ((menuselected == 6) ? lightred : red));
             snprintf(menutext, sizeof(menutext), "   Player 2 - %s   ", (playercontrols[1] > 3 ? "Joystick" : "Keyboard"));
-            textout(screen, font, menutext, INTRO_SCREEN_WIDTH/3, maxi+130, ((menuselected == 7) ? lightred : red));
+            textout(screen, font, menutext, width/3, maxi+130, ((menuselected == 7) ? lightred : red));
             snprintf(menutext, sizeof(menutext), "   Player 3 - %s   ", (playercontrols[2] > 3 ? "Joystick" : "Keyboard"));
-            textout(screen, font, menutext, INTRO_SCREEN_WIDTH/3, maxi+140, ((menuselected == 8) ? lightred : red));
+            textout(screen, font, menutext, width/3, maxi+140, ((menuselected == 8) ? lightred : red));
             snprintf(menutext, sizeof(menutext), "   Player 4 - %s   ", (playercontrols[3] > 3 ? "Joystick" : "Keyboard"));
-            textout(screen, font, menutext, INTRO_SCREEN_WIDTH/3, maxi+150, ((menuselected == 9) ? lightred : red));
+            textout(screen, font, menutext, width/3, maxi+150, ((menuselected == 9) ? lightred : red));
             
-            textout(screen, font, "Exit", INTRO_SCREEN_WIDTH/3, maxi+165, ((menuselected == 10) ? lightred : red));
+            textout(screen, font, "Exit", width/3, maxi+165, ((menuselected == 10) ? lightred : red));
             
             vsync();
         } 
@@ -331,15 +330,15 @@ GameSequence* IntroSequence::doRun()
 
 void IntroSequence::DrawZoomedLogoInCenter(int y1,int y2)
 {
-	int width=fixtoi(fixmul(itofix(iLogo->w),iZoom));
-	int height=fixtoi(fixmul(itofix(iLogo->h),iZoom));
-	int targetwidth=INTRO_SCREEN_WIDTH;
+	int logowidth=fixtoi(fixmul(itofix(iLogo->w),iZoom));
+	int logoheight=fixtoi(fixmul(itofix(iLogo->h),iZoom));
+	int targetwidth=width;
 	int targetheight=y2-y1;
 
 	int xs,ys,ws,hs;
 	int xd,yd,wd,hd;
 
-	if (width>targetwidth)
+	if (logowidth>targetwidth)
 		{
 		ws=fixtoi(fixdiv(itofix(targetwidth),iZoom));
 		xs=(iLogo->w-ws)/2;
@@ -350,11 +349,11 @@ void IntroSequence::DrawZoomedLogoInCenter(int y1,int y2)
 		{
 		xs=0;
 		ws=iLogo->w;
-		xd=(targetwidth-width)/2;
-		wd=width;
+		xd=(targetwidth-logowidth)/2;
+		wd=logowidth;
 		}
 
-	if (height>targetheight)
+	if (logoheight>targetheight)
 		{
 		hs=fixtoi(fixdiv(itofix(targetheight),iZoom));
 		ys=(iLogo->h-hs)/2;
@@ -365,8 +364,8 @@ void IntroSequence::DrawZoomedLogoInCenter(int y1,int y2)
 		{
 		ys=0;
 		hs=iLogo->h;
-		yd=(targetheight-height)/2;
-		hd=height;
+		yd=(targetheight-logoheight)/2;
+		hd=logoheight;
 		}
 	stretch_blit(iLogo,iDoublebuffer,xs,ys,ws,hs,xd,yd,wd,hd);
 }
@@ -378,9 +377,9 @@ void IntroSequence::update_control(int playerno, int screenpos)
     if (playercontrols[playerno] > 3) update_joystick(playerno, screenpos);
     else
     {
-        textout(screen, font, "not supported ", INTRO_SCREEN_WIDTH/3 + 200, screenpos, lightred);
+        textout(screen, font, "not supported ", width/3 + 200, screenpos, lightred);
         rest(200);
-        textout(screen, font, "              ", INTRO_SCREEN_WIDTH/3 + 200, screenpos, lightred);
+        textout(screen, font, "              ", width/3 + 200, screenpos, lightred);
     }
 } 
 
@@ -394,12 +393,12 @@ void IntroSequence::update_joystick(int playerno, int screenpos)
     {
         // get joystick input
         snprintf(menutext, sizeof(menutext), "   %s   ", controltext[control]);
-        textout(screen, font, menutext, INTRO_SCREEN_WIDTH/3 + 200, screenpos, lightred);
+        textout(screen, font, menutext, width/3 + 200, screenpos, lightred);
         joy_sets[joystickno][control] = get_joystick_action(joystickno);
-        textout(screen, font, "   ok       ", INTRO_SCREEN_WIDTH/3 + 200, screenpos, lightred);
+        textout(screen, font, "   ok       ", width/3 + 200, screenpos, lightred);
         rest(200);        
     }
-    textout(screen, font, "            ", INTRO_SCREEN_WIDTH/3 + 200, screenpos, lightred);
+    textout(screen, font, "            ", width/3 + 200, screenpos, lightred);
 }
 
 int *IntroSequence::get_joystick_action(int joystickno)

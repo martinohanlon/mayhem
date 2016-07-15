@@ -307,6 +307,10 @@ void BattleSequence::InitSoundFx()
 GameSequence* BattleSequence::doRun()
 {
   int i; // for everythign counter
+  
+  //create an in memory screen buffer, the 'real' screen is only blitted once a frame
+  BITMAP * screen_buffer;
+  screen_buffer = create_clear_bitmap(screen_width, screen_height);
 
 #ifdef CHECKFPS
   int check_fps=1;
@@ -335,11 +339,11 @@ GameSequence* BattleSequence::doRun()
             static int miss=0;
             char bf[20];
             sprintf(bf,"net send:%d",count++);
-            textout(screen,font,bf,700,50,makecol(255,255,255));
+            textout(screen_buffer,font,bf,700,50,makecol(255,255,255));
             if (!gameclient.send(keyvaisseau[0].cmd))
                 {
                 sprintf(bf,"send miss:%d",miss++);
-                textout(screen,font,bf,700,60,makecol(255,255,255));
+                textout(screen_buffer,font,bf,700,60,makecol(255,255,255));
                 }
             }
         if (gameserver.recv(netpadcmd))
@@ -347,7 +351,7 @@ GameSequence* BattleSequence::doRun()
             static int count=0;
             char bf[20];
             sprintf(bf,"net recv:%d",count++);
-            textout(screen,font,bf,700,80,makecol(255,255,255));
+            textout(screen_buffer,font,bf,700,80,makecol(255,255,255));
             netpadcmd.controlled_ship=&vaisseaux[0];
             }
 
@@ -407,6 +411,7 @@ GameSequence* BattleSequence::doRun()
         draw_debris(players, moon_physics, nb_players, currentlevel);
         
         gestion_minimap(vaisseaux, currentlevel, nb_players, screen_width, screen_height);
+        blit(currentlevel->mini_bitmap_buffer, screen_buffer, 0, 0, screen_width*(350.0/800.0), screen_height*(370.0/600.0), screen_width*(99/800.0), screen_height*(150/600.0));
 
         if(currentlevel==&levels[0]) warp_zone(vaisseaux, nb_players);
         gestion_warps(vaisseaux, currentlevel, nb_players);
@@ -441,30 +446,34 @@ GameSequence* BattleSequence::doRun()
                 }
             }
             
-            blit(v->back_map_buffer, screen, 0, 0, v->x, v->y, v->w+2*v->bordersize, v->h+2*v->bordersize);
+            blit(v->back_map_buffer, screen_buffer, 0, 0, v->x, v->y, v->w+2*v->bordersize, v->h+2*v->bordersize);
         }
-
+        
     #ifdef CHECKFPS
         check_fps++;
         if (check_fps == 100)
         {
             char fps[10];
             sprintf(fps,"fps=%.1f",check_fps*70.0/(retrace_count-retrace_count_init));
-            textout(screen,font,fps,5,5,makecol(200,200,200));
+            textout(screen_buffer,font,fps,5,5,makecol(200,200,200));
 
             char reso[10];
             sprintf(reso, "%ix%i", screen_width, screen_height);
-            textout(screen,font, reso ,5,17,makecol(200,200,200));
+            textout(screen_buffer,font, reso ,5,17,makecol(200,200,200));
 
             //debug interupt counter
             /*char counter[10];
             sprintf(counter, "%i", InterruptTimer::timing_counter);
-            textout(screen,font, counter,5,29,makecol(200,200,200));*/
+            textout(screen_buffer,font, counter,5,29,makecol(200,200,200));*/
 
             check_fps=0;
             retrace_count_init=retrace_count;
          }
     #endif
+        
+        // blit the screen buffer to the 'actual' screen
+        blit(screen_buffer, screen, 0, 0, 0, 0, screen_width, screen_height);
+    
     #ifdef USE_VSYNC
         vsync();    // wait the raster
     #endif 
@@ -489,7 +498,7 @@ GameSequence* BattleSequence::doRun()
       rest(2000);
   }
   InterruptTimer::reset();
-
+  destroy_bitmap(screen_buffer);
   return  ReturnScreen();
 }
 

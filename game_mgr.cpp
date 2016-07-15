@@ -12,6 +12,10 @@
 
 volatile int InterruptTimer::timing_counter;
 
+// initialise static members
+int GameManager::display_height;
+int GameManager::display_width;
+
 void GameManager::Init()
 {
   allegro_init();                                            // Initialise Allegro
@@ -21,7 +25,13 @@ void GameManager::Init()
   install_joystick(JOY_TYPE_AUTODETECT);                     // Install joystick
   // GP TODO? THROW EXCEPTION?
   install_sound(DIGI_AUTODETECT , MIDI_AUTODETECT , NULL);
-  set_gfx_mode( GFXOPENARG, DEFAULT_WIDTH, DEFAULT_HEIGHT, 0, 0 );          // test ecran
+  //get the screen resolution
+  if (get_desktop_resolution(&display_width, &display_height) != 0) {
+      // failed to get resolution, set to a default
+      display_width = DEFAULT_WIDTH;
+      display_height = DEFAULT_HEIGHT;
+  }
+  set_gfx_mode( GFXOPENARG, display_width, display_height, 0, 0 );
   //set_gfx_mode( GFX_AUTODETECT_WINDOWED, DEFAULT_WIDTH, DEFAULT_HEIGHT, 0, 0 );          // windowed
 }
 
