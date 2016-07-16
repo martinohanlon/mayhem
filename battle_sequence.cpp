@@ -464,9 +464,9 @@ GameSequence* BattleSequence::doRun()
             textout(screen_buffer, font, reso, 5, 5, makecol(200,200,200));
 
             //debug interupt counter
-            char counter[10];
+            /*char counter[10];
             sprintf(counter, "%i", InterruptTimer::timing_counter);
-            textout(screen_buffer,font, counter, 205, 5, makecol(200,200,200));
+            textout(screen_buffer,font, counter, 205, 5, makecol(200,200,200));*/
 
             check_fps=0;
             retrace_count_init=retrace_count;
