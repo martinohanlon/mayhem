@@ -265,27 +265,29 @@ void BattleSequence::InitPlayerInfo()
 
 void BattleSequence::InitPlayerViews()
 {
+    int border = 25;
+    int centre_gap = 10 * (screen_width/100.0);
     if (nb_views == 1)
     {
-        init_player_view(&views[0],90,100,300,260,&players[0]);
+        init_player_view(&views[0], border, border, (screen_width / 2) - (centre_gap / 2) - (border * 2), screen_height - (border * 2), &players[0]);
     }
     else if (nb_views == 2)
     {
-        init_player_view(&views[0], screen_width*(90.0/800.0) , screen_height*(100.0/600.0), screen_width*(300.0/800.0), screen_height*(260.0/600.0),&players[0]);
-        init_player_view(&views[1], screen_width*(410.0/800.0) , screen_height*(100.0/600.0) ,screen_width*(300.0/800.0), screen_height*(260.0/600.0),&players[1]);
+        init_player_view(&views[0], border, border, (screen_width / 2) - (centre_gap / 2) - (border * 2), screen_height - (border * 2), &players[0]);
+        init_player_view(&views[1], (screen_width / 2) + (centre_gap / 2) + border, border,  (screen_width / 2) - (centre_gap / 2) - (border * 2), screen_height - (border * 2), &players[1]);
     }
     else if (nb_views == 3)
     {
-        init_player_view(&views[0], screen_width*(90/800.0), screen_height*(40/600.0),screen_width*(300.0/800.0),screen_height*(260.0/600.0),&players[0]);
-        init_player_view(&views[1], screen_width*(410/800.0) ,screen_height*(40/600.0),screen_width*(300.0/800.0),screen_height*(260.0/600.0),&players[1]);
-        init_player_view(&views[2], screen_width*(40/800.0) , screen_height*(310/600.0),screen_width*(300.0/800.0),screen_height*(260.0/600.0),&players[2]);
+        init_player_view(&views[0], border, border, (screen_width / 2) - (centre_gap / 2) - (border * 2), (screen_height / 2) - (border * 1.5), &players[0]);
+        init_player_view(&views[1], (screen_width / 2) + (centre_gap / 2) + border, border,  (screen_width / 2) - (centre_gap / 2) - (border * 2), (screen_height / 2) - (border * 1.5), &players[1]);
+        init_player_view(&views[2], border, (screen_height / 2) + (border * 0.5), (screen_width / 2) - (centre_gap / 2) - (border * 2), (screen_height / 2) - (border * 1.5), &players[2]);
     }
     else if (nb_views == 4)
     {
-        init_player_view(&views[0], screen_width*(90/800.0), screen_height*(40/600.0),screen_width*(300.0/800.0),screen_height*(260.0/600.0),&players[0]);
-        init_player_view(&views[1], screen_width*(410/800.0) ,screen_height*(40/600.0),screen_width*(300.0/800.0),screen_height*(260.0/600.0),&players[1]);
-        init_player_view(&views[2], screen_width*(40/800.0), screen_height*(310/600.0),screen_width*(300.0/800.0),screen_height*(260.0/600.0),&players[2]);
-        init_player_view(&views[3], screen_width*(460/800.0), screen_height*(310/600.0),screen_width*(300.0/800.0),screen_height*(260.0/600.0),&players[3]);
+        init_player_view(&views[0], border, border, (screen_width / 2) - (centre_gap / 2) - (border * 2), (screen_height / 2) - (border * 1.5), &players[0]);
+        init_player_view(&views[1], (screen_width / 2) + (centre_gap / 2) + border, border,  (screen_width / 2) - (centre_gap / 2) - (border * 2), (screen_height / 2) - (border * 1.5), &players[1]);
+        init_player_view(&views[2], border, (screen_height / 2) + (border * 0.5), (screen_width / 2) - (centre_gap / 2) - (border * 2), (screen_height / 2) - (border * 1.5), &players[2]);
+        init_player_view(&views[3], (screen_width / 2) + (centre_gap / 2) + border, (screen_height / 2) + (border * 0.5),  (screen_width / 2) - (centre_gap / 2) - (border * 2), (screen_height / 2) - (border * 1.5), &players[3]);
     }
 }
 
@@ -411,7 +413,7 @@ GameSequence* BattleSequence::doRun()
         draw_debris(players, moon_physics, nb_players, currentlevel);
         
         gestion_minimap(vaisseaux, currentlevel, nb_players, screen_width, screen_height);
-        blit(currentlevel->mini_bitmap_buffer, screen_buffer, 0, 0, screen_width*(350.0/800.0), screen_height*(370.0/600.0), screen_width*(99/800.0), screen_height*(150/600.0));
+        blit(currentlevel->mini_bitmap_buffer, screen_buffer, 0, 0, (screen_width / 2) - (5*(screen_width/100.0)), (screen_height / 2) - (currentlevel->mini_bitmap_buffer->h / 2) , currentlevel->mini_bitmap_buffer->w, currentlevel->mini_bitmap_buffer->h);
 
         if(currentlevel==&levels[0]) warp_zone(vaisseaux, nb_players);
         gestion_warps(vaisseaux, currentlevel, nb_players);
@@ -455,16 +457,16 @@ GameSequence* BattleSequence::doRun()
         {
             char fps[10];
             sprintf(fps,"fps=%.1f",check_fps*70.0/(retrace_count-retrace_count_init));
-            textout(screen_buffer,font,fps,5,5,makecol(200,200,200));
+            textout(screen_buffer, font, fps, 105, 5, makecol(200,200,200));
 
             char reso[10];
             sprintf(reso, "%ix%i", screen_width, screen_height);
-            textout(screen_buffer,font, reso ,5,17,makecol(200,200,200));
+            textout(screen_buffer, font, reso, 5, 5, makecol(200,200,200));
 
             //debug interupt counter
-            /*char counter[10];
+            char counter[10];
             sprintf(counter, "%i", InterruptTimer::timing_counter);
-            textout(screen_buffer,font, counter,5,29,makecol(200,200,200));*/
+            textout(screen_buffer,font, counter, 205, 5, makecol(200,200,200));
 
             check_fps=0;
             retrace_count_init=retrace_count;
@@ -485,16 +487,16 @@ GameSequence* BattleSequence::doRun()
       char gameovermsg[10];
       //who won?
       int winner = 0;
-      int winnerlives = 0;
+      int winnerlives = -1;
       for(i=0;i<nb_players;i++)
         if(players[i].nblives > winnerlives)
         {
             winnerlives = players[i].nblives;
             winner = i + 1;
         }
-      if(winner == 0) sprintf(gameovermsg, "Game over. Draw!");
+      if(winner == 0) sprintf(gameovermsg, "     Game over. Draw!");    
       else sprintf(gameovermsg, "Game over. Player %i wins!", winner);
-      textout(screen,font, gameovermsg ,5,29,makecol(255,0,0));
+      textout(screen,font, gameovermsg, (screen_width / 2) - 100, 5, makecol(255,0,0));
       rest(2000);
   }
   InterruptTimer::reset();

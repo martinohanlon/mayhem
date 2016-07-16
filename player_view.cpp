@@ -538,7 +538,8 @@ void draw_debris(struct player_info *allpi, const physics_constants& physics, in
 
 void gestion_minimap(struct vaisseau_data *vaisseaux, struct level_data *currentlevel, int nbplayers, int largeur, int hauteur)
 {
-    stretch_blit(currentlevel->mini_bitmap, currentlevel->mini_bitmap_buffer, 0, 0, 99, 150, 0, 0, largeur*(99/800.0), hauteur*(150/600.0));
+    //stretch_blit(currentlevel->mini_bitmap, currentlevel->mini_bitmap_buffer, 0, 0, 99, 150, 0, 0, largeur*(99/800.0), hauteur*(150/600.0));
+    stretch_blit(currentlevel->mini_bitmap, currentlevel->mini_bitmap_buffer, 0, 0, 99, 150, 0, 0, 10.0*(largeur/100.0), 15.0*(largeur/100.0));
 
     int x,y;
     struct vaisseau_data *v;
@@ -547,7 +548,8 @@ void gestion_minimap(struct vaisseau_data *vaisseaux, struct level_data *current
         v=&vaisseaux[i];
         x=(v->xpos>>3)+1;
         y=(v->ypos>>3)+3;
-        put_big_pixel(currentlevel->mini_bitmap_buffer, x*(largeur*(99/800.0)/99.0), y*(hauteur*(150/600.0)/150.0), makecol(255, 255, 255));
+        //put_big_pixel(currentlevel->mini_bitmap_buffer, x*(largeur*(99/800.0)/99.0), y*(hauteur*(150/600.0)/150.0), makecol(255, 255, 255));
+        put_big_pixel(currentlevel->mini_bitmap_buffer, x*((10.0*(largeur/100.0))/99.0), y*((15.0*(largeur/100.0))/150.0), makecol(255, 255, 255));
     }
 
 }
