@@ -6,6 +6,9 @@
 #define  DEFAULT_WIDTH  1024
 #define  DEFAULT_HEIGHT 768
 
+//vsync creates some really erratic results on modern windows systems
+//#define USE_VSYNC
+
 class GameSequence
 {
 public:

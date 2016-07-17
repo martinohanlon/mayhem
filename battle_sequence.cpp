@@ -443,7 +443,7 @@ GameSequence* BattleSequence::doRun()
                 {                    
                     blit(currentlevel->level_buffer, v->back_map_buffer,
                         0, ship->ypos - (v->h/2),
-                        v->bordersize + (v->w - (ship->xpos + (v->w/2) - currentlevel->bitmap->w)), v->bordersize, 
+                        v->bordersize + (v->w - (ship->xpos + (v->w/2) - currentlevel->bitmap->w)) - 1, v->bordersize, 
                         ship->xpos + (v->w/2) - currentlevel->bitmap->w, v->h);
                 }
             }
