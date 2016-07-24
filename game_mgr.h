@@ -32,6 +32,7 @@ public:
     static void Init();
     static void Shutdown();
     static void Run(GameSequence *aSeq);
+    static void ChangeScreenRes(int width, int height);
     static int display_width;
     static int display_height;
 };

@@ -116,6 +116,7 @@ GameSequence* IntroSequence::doRun()
 
 	bool startgame = false;
     bool exit = false;    
+    bool reload = false;
 
 	if (!quickExit)
 	{
@@ -125,7 +126,7 @@ GameSequence* IntroSequence::doRun()
                 
         InterruptTimer::start();
         
-        while(!startgame && !exit)
+        while(!startgame && !exit && !reload)
         {
             while(InterruptTimer::wasTriggered()) {
                 if (num_joysticks) poll_joystick();
@@ -166,8 +167,13 @@ GameSequence* IntroSequence::doRun()
                     playerschoice=4;
                     startgame = true;
                 }
+                if (key[KEY_F5])
+                {
+                    GameManager::ChangeScreenRes(1024, 768);
+                    reload = true;
+                }
                 // get out of the interupt loop
-                if (startgame || exit)
+                if (startgame || exit || reload)
                 {
                     break;
                 }
@@ -327,7 +333,9 @@ GameSequence* IntroSequence::doRun()
 		iZoom=iZoomMax;
 		seq=new BattleSequence(this, playerschoice, playerschoice, liveschoice, levelchoice, dcachoice, wallchoice, width, height, playercontrols, joy_sets);
 		}
-	else
+	else if (reload)
+        seq=new IntroSequence(NULL, 10.0, 0.5, playerschoice, levelchoice, liveschoice, dcachoice, wallchoice);
+    else
 		seq=ReturnScreen();
 
 	return seq;

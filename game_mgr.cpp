@@ -35,6 +35,13 @@ void GameManager::Init()
   //set_gfx_mode( GFX_AUTODETECT_WINDOWED, DEFAULT_WIDTH, DEFAULT_HEIGHT, 0, 0 );          // windowed
 }
 
+void GameManager::ChangeScreenRes(int width, int height)
+{
+    display_width = width;
+    display_height = height;
+    set_gfx_mode( GFXOPENARG, display_width, display_height, 0, 0 );
+}
+
 void GameManager::Shutdown()
 {
   remove_sound();
