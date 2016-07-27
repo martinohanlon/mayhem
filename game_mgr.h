@@ -35,6 +35,8 @@ public:
     static void ChangeScreenRes(int width, int height);
     static int display_width;
     static int display_height;
+    static int native_width;
+    static int native_height;
 };
 
 class InterruptTimer

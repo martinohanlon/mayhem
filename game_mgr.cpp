@@ -15,6 +15,8 @@ volatile int InterruptTimer::timing_counter;
 // initialise static members
 int GameManager::display_height;
 int GameManager::display_width;
+int GameManager::native_height;
+int GameManager::native_width;
 
 void GameManager::Init()
 {
@@ -31,6 +33,9 @@ void GameManager::Init()
       display_width = DEFAULT_WIDTH;
       display_height = DEFAULT_HEIGHT;
   }
+  //set the native display properties
+  native_width = display_width;
+  native_height = display_height;
   set_gfx_mode( GFXOPENARG, display_width, display_height, 0, 0 );
   //set_gfx_mode( GFX_AUTODETECT_WINDOWED, DEFAULT_WIDTH, DEFAULT_HEIGHT, 0, 0 );          // windowed
 }

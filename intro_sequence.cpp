@@ -53,7 +53,7 @@ GameSequence* IntroSequence::doRun()
 	bool quickExit=false;
 	bool canQuickExit=false;
     
-    int menuitems = 11;
+    int menuitems = 12;
     int menuselected = 0;
     char menutext[50];
     
@@ -167,11 +167,6 @@ GameSequence* IntroSequence::doRun()
                     playerschoice=4;
                     startgame = true;
                 }
-                if (key[KEY_F5])
-                {
-                    GameManager::ChangeScreenRes(1024, 768);
-                    reload = true;
-                }
                 // get out of the interupt loop
                 if (startgame || exit || reload)
                 {
@@ -273,6 +268,13 @@ GameSequence* IntroSequence::doRun()
                             update_control(3, maxi+150);
                             break;  
                         case 10:
+                            if (width == GameManager::native_width && height == GameManager::native_height)
+                                GameManager::ChangeScreenRes(1024, 768);
+                            else 
+                                GameManager::ChangeScreenRes(GameManager::native_width, GameManager::native_height);
+                            reload = true;
+                            break;
+                        case 11:
                             exit = true;
                             break;
                             
@@ -312,7 +314,16 @@ GameSequence* IntroSequence::doRun()
                 snprintf(menutext, sizeof(menutext), "   Player 4 - %s   ", (playercontrols[3] > 3 ? "Joystick" : "Keyboard"));
                 textout(screen_buffer, font, menutext, width/3, maxi+150, ((menuselected == 9) ? lightred : red));
                 
-                textout(screen_buffer, font, "Exit", width/3, maxi+165, ((menuselected == 10) ? lightred : red));
+                snprintf(menutext, sizeof(menutext), "Resolution (%ix%i)   ", width, height);
+                textout(screen_buffer, font, menutext, width/3, maxi+165, red);
+                
+                if (width == GameManager::native_width && height == GameManager::native_height)
+                    snprintf(menutext, sizeof(menutext), "   Switch to Low - 1024x768   ");
+                else
+                    snprintf(menutext, sizeof(menutext), "   Switch to Native - %ix%i   ", GameManager::native_width, GameManager::native_height);
+                textout(screen_buffer, font, menutext, width/3, maxi+175, ((menuselected == 10) ? lightred : red));
+                
+                textout(screen_buffer, font, "Exit", width/3, maxi+190, ((menuselected == 11) ? lightred : red));
                 
                 // blit the screen buffer to the 'actual' screen
                 blit(screen_buffer, screen, 0, 0, 0, 0, width, height);
