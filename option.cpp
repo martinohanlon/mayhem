@@ -17,24 +17,24 @@ void option_time(struct option_data *opt)
 
 bool test_pos_option(struct option_data *opt, int opt_type, struct level_data *currentlevel, int x, int y)
 {
-   unsigned long address_bmp;
-   unsigned char pixelcolor;
-   bmp_select(currentlevel->collision_bitmap);
-   int ligne;
+    unsigned long address_bmp;
+    unsigned char pixelcolor;
+    bmp_select(currentlevel->collision_bitmap);
+    int ligne;
 
-   for(ligne=0; ligne < opt->option_sprites[opt_type - 1].sprite->h; ligne++)
-   {
-      address_bmp = bmp_read_line(currentlevel->collision_bitmap, ligne + y);
-      for(int colonne=0; colonne < opt->option_sprites[opt_type - 1].sprite->w; colonne++)
-      {
-      pixelcolor = bmp_read8(address_bmp + colonne + x);
-      if ((currentlevel->colormap[pixelcolor].r !=0) ||
-          (currentlevel->colormap[pixelcolor].g !=0) ||
-          (currentlevel->colormap[pixelcolor].b !=0))
-      return(false);
-      }
-   }
-   return(true);
+    for(ligne=0; ligne < opt->option_sprites[opt_type - 1].sprite->h; ligne++)
+    {
+        address_bmp = bmp_read_line(currentlevel->collision_bitmap, ligne + y);
+        for(int colonne=0; colonne < opt->option_sprites[opt_type - 1].sprite->w; colonne++)
+        {
+            pixelcolor = bmp_read8(address_bmp + colonne + x);
+            if ((currentlevel->colormap[pixelcolor].r !=0) ||
+                (currentlevel->colormap[pixelcolor].g !=0) ||
+                (currentlevel->colormap[pixelcolor].b !=0))
+            return(false);
+        }
+    }
+    return(true);
 }
 
 void init_option(struct option_data *opt, struct level_data *currentlevel, struct vaisseau_data *allv, int nombre_vaisseau)
