@@ -320,6 +320,7 @@ GameSequence* BattleSequence::doRun()
     #endif
     
     int missed_frame_count = 0;
+    int source_x = 0, source_y = 0;
 
     bool isRunning=true;
     InterruptTimer::start();
@@ -428,29 +429,44 @@ GameSequence* BattleSequence::doRun()
             {
                 struct player_view* v = &views[i];
                 struct vaisseau_data *ship = v->player->ship;
-                blit(currentlevel->level_buffer, v->back_map_buffer,
-                    ship->xpos - (v->w/2), ship->ypos - (v->h/2),
-                    v->bordersize, v->bordersize, v->w, v->h);
-
-                // does the level wrap in x
-                if (currentlevel->edgedata.wrapx)
+                
+                // put the ship in the centre of the map, unless it is on the edge
+                source_y = ship->ypos - (v->h/2); 
+                if (source_y < 0) source_y = 0;
+                else if (source_y + v->h > currentlevel->bitmap->h) source_y = currentlevel->bitmap->h - v->h;
+                
+                source_x = ship->xpos - (v->w/2);
+                if (!currentlevel->edgedata.wrapx)
                 {
-
-                    if (ship->xpos - (v->w/2) < 0) 
+                    if (source_x < 0) source_x = 0;
+                    else if (source_x + v->w > currentlevel->bitmap->w) source_x = currentlevel->bitmap->w - v->w;
+                }
+                else
+                // the level wraps in x - if so fill in the left or right
+                {
+                    // left
+                    if (source_x < 0) 
                     {
                         blit(currentlevel->level_buffer, v->back_map_buffer,
-                            currentlevel->bitmap->w + (ship->xpos - (v->w/2)), ship->ypos - (v->h/2),
+                            currentlevel->bitmap->w + (ship->xpos - (v->w/2)), source_y,
                             v->bordersize, v->bordersize, v->w - (ship->xpos - (v->w/2)), v->h);
                     }
-                    else if (ship->xpos + (v->w/2) > currentlevel->bitmap->w)
+                    // right
+                    else if (source_x + v->w > currentlevel->bitmap->w)
                     {                    
                         blit(currentlevel->level_buffer, v->back_map_buffer,
-                            0, ship->ypos - (v->h/2),
+                            0, source_y,
                             v->bordersize + (v->w - (ship->xpos + (v->w/2) - currentlevel->bitmap->w)) - 1, v->bordersize, 
                             ship->xpos + (v->w/2) - currentlevel->bitmap->w, v->h);
                     }
                 }
-                
+
+                // blit the level into the players view
+                blit(currentlevel->level_buffer, v->back_map_buffer,
+                    source_x, source_y,
+                    v->bordersize, v->bordersize, v->w, v->h);
+                     
+                // blit the players view to the screen buffer
                 blit(v->back_map_buffer, screen_buffer, 0, 0, v->x, v->y, v->w+2*v->bordersize, v->h+2*v->bordersize);
             }
             
