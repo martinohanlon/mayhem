@@ -320,7 +320,7 @@ GameSequence* BattleSequence::doRun()
     #endif
     
     int missed_frame_count = 0;
-    int source_x = 0, source_y = 0;
+    //int source_x = 0, source_y = 0;
 
     bool isRunning=true;
     InterruptTimer::start();
@@ -430,12 +430,12 @@ GameSequence* BattleSequence::doRun()
                 struct player_view* v = &views[i];
                 struct vaisseau_data *ship = v->player->ship;
                 
-                // put the ship in the centre of the map, unless it is on the edge
-                source_y = ship->ypos - (v->h/2); 
+                //put the ship in the middle, unless they are at the edge of the level
+                int source_y = ship->ypos - (v->h/2); 
                 if (source_y < 0) source_y = 0;
                 else if (source_y + v->h > currentlevel->bitmap->h) source_y = currentlevel->bitmap->h - v->h;
                 
-                source_x = ship->xpos - (v->w/2);
+                int source_x = ship->xpos - (v->w/2);
                 if (!currentlevel->edgedata.wrapx)
                 {
                     if (source_x < 0) source_x = 0;
