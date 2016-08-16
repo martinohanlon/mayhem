@@ -5,7 +5,7 @@
 ##Description
 [Mayhem](http://www.lemonamiga.com/games/details.php?id=2972) was originally released as Public Domain / Shareware on the [Amiga](https://en.wikipedia.org/wiki/Amiga). It was ported to the PC in 2002 by [devpack](https://github.com/devpack) and released onto github in 2011 [github.com/devpack/mayhem](https://github.com/devpack/mayhem). 
 
-![Mayhem game image](mayhem.jpg)
+![Mayhem game image](mayhem2.jpg)
 
 [Video of the original amiga game](https://www.youtube.com/watch?v=fs30DLGxqhs).
 
@@ -88,6 +88,7 @@ Mayhem2 is compiled with [mingw](http://www.mingw.org/), use mingw32-make to bui
 * 0.8 - joystick control
 * 0.9 - new powerup icons
 * 0.10 - screen resolution & perf improvements 
+* 0.11 - screen rendering, timing changes, bug fix
 
 ##Contributors
 [Anthony Prieur](https://github.com/devpack)
