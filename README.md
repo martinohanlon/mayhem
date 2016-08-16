@@ -5,7 +5,7 @@
 ##Description
 [Mayhem](http://www.lemonamiga.com/games/details.php?id=2972) was originally released as Public Domain / Shareware on the [Amiga](https://en.wikipedia.org/wiki/Amiga). It was ported to the PC in 2002 by [devpack](https://github.com/devpack) and released onto github in 2011 [github.com/devpack/mayhem](https://github.com/devpack/mayhem). 
 
-![Mayhem game image](mayhem.jpg)
+![Mayhem game image](mayhem2.jpg)
 
 [Video of the original amiga game](https://www.youtube.com/watch?v=fs30DLGxqhs).
 
