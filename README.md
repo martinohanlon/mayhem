@@ -96,3 +96,5 @@ Mayhem2 is compiled with [mingw](http://www.mingw.org/), use mingw32-make to bui
 [Martin O'Hanlon](https://github.com/martinohanlon)
 
 Lee Taylor
+
+[Jonas Karlsson](https://github.com/karjonas)
