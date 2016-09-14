@@ -24,12 +24,12 @@ void calcul_pos(const physics_constants &physics, int nbvaisseau,
       if (!vaisseau->landed) {
         vaisseau->ax =
             fixmul(vaisseau->thrust,
-                   fixsin(itofix(vaisseau->angle))); // ax = thrust * sinµ
+                   fixsin(itofix(vaisseau->angle))); // ax = thrust * sinï¿½
         vaisseau->ay = fixadd(
             physics.iG,
             fixmul(
                 vaisseau->thrust,
-                -fixcos(itofix(vaisseau->angle)))); // ay = g + thrust * (-cosµ)
+                -fixcos(itofix(vaisseau->angle)))); // ay = g + thrust * (-cosï¿½)
         // gestion impact
         if (vaisseau->impactx || vaisseau->impacty) {
           vaisseau->ax =

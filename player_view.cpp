@@ -437,7 +437,7 @@ void mega_collision_test(struct player_info *allpi, struct player_view *views,
 //----------------------------------------------------------------------------//
 
 void init_debris(struct vaisseau_data *v) {
-  int angle = 16;
+  int angle = 22;
 
   for (int i = 0; i < 8; i++) {
 
@@ -457,7 +457,7 @@ void init_debris(struct vaisseau_data *v) {
     v->debris[i].vy = itofix(0);
     v->debris[i].active = true;
 
-    angle += 32;
+    angle += 45;
   }
 }
 

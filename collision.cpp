@@ -43,8 +43,8 @@ bool test_collision(struct player_view *pv, struct level_data *currentlevel) {
 
   int num_frames = vaisseau->coll_map.num_frames;
 
-  int frame = vaisseau->angle / vaisseau->anglestep;
-
+  double frame = vaisseau->angle / vaisseau->anglestep;
+  
   assert(frame >= 0 && frame < num_frames);
 
   int y_max = currentlevel->coll_map.height;
