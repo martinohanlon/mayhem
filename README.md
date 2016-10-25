@@ -78,7 +78,52 @@ You maybe presented with message saying that the application was stopped from st
 
 ## Compile
 
-Mayhem2 is compiled with [mingw](http://www.mingw.org/), use mingw32-make to build, paths in the MakeFile may need to be changed.
+### Windows using MSYS2
+
+Download and install [MSYS2](http://www.msys2.github.io). Open MinGW 64-bit or MinGW 32-bit shell depending on your architechture.
+
+Install dependencies:
+
+For mingw64 using i686:
+```
+pacman -S git make mingw-w64-i686-allegro mingw-w64-i686-make mingw-w64-i686-cmake mingw-w64-i686-gcc mingw-w64-i686-openal mingw-w64-i686-dumb mingw-w64-i686-freetype mingw-w64-i686-libvorbis mingw-w64-i686-flac mingw-w64-i686-libjpeg
+```
+
+For mingw64 using x86_64:
+```
+pacman -S git make mingw-w64-x86_64-allegro mingw-w64-x86_64-make mingw-w64-x86_64-cmake mingw-w64-x86_64-gcc mingw-w64-x86_64-openal mingw-w64-x86_64-dumb mingw-w64-x86_64-freetype mingw-w64-x86_64-libvorbis mingw-w64-x86_64-flac mingw-w64-x86_64-libjpeg
+```
+
+Clone repository, compile and run:
+```
+git clone https://github.com/martinohanlon/mayhem.git
+cd mayhem
+mkdir build
+cd build
+cmake -G "MSYS Makefiles" ..
+make
+./mayhem2.exe
+```
+
+### Ubuntu
+
+Install dependencies:
+
+```
+sudo apt-get install liballegro5-dev git cmake
+```
+
+Clone repository, compile and run:
+
+```
+git clone https://github.com/martinohanlon/mayhem.git
+cd mayhem
+mkdir build
+cd build
+cmake ..
+make
+./mayhem2
+```
 
 ## Version history
 * beta - compiles, runs, ongoing mods
