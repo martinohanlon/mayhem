@@ -467,7 +467,51 @@ GameSequence *BattleSequence::doTick(ALLEGRO_BITMAP *screen_buffer,
     for (i = 0; i < nb_views; i++) {
       struct player_view *v = &views[i];
       struct vaisseau_data *ship = v->player->ship;
+      
+      //put the ship in the middle, unless they are at the edge of the level
+      int source_y = ship->ypos - (v->h/2); 
+      if (source_y < 0) source_y = 0;
+      else if (source_y + v->h > al_get_bitmap_height(currentlevel->bitmap)) 
+          source_y = al_get_bitmap_height(currentlevel->bitmap) - v->h;
+
+      int source_x = ship->xpos - (v->w/2);
+      if (!currentlevel->edgedata.wrapx)
+      {
+        if (source_x < 0) source_x = 0;
+        else if (source_x + v->w > al_get_bitmap_width(currentlevel->bitmap)) 
+            source_x = al_get_bitmap_width(currentlevel->bitmap) - v->w;
+      }
+      else
+      // the level wraps in x - if so fill in the left or right
+      {
+        // left
+        if (source_x < 0) 
+        {
+          blit(currentlevel->level_buffer, v->back_map_buffer,
+              al_get_bitmap_width(currentlevel->bitmap) + (ship->xpos - (v->w/2)), source_y,
+              v->bordersize, v->bordersize, v->w - (ship->xpos - (v->w/2)), v->h);
+        }
+        // right
+        else if (source_x + v->w > al_get_bitmap_width(currentlevel->bitmap))
+        {                    
+          blit(currentlevel->level_buffer, v->back_map_buffer,
+              0, source_y,
+              v->bordersize + (v->w - (ship->xpos + (v->w/2) - al_get_bitmap_width(currentlevel->bitmap))) - 1, v->bordersize, 
+              ship->xpos + (v->w/2) - al_get_bitmap_width(currentlevel->bitmap), v->h);
+        }
+      }
+
+      // blit the level into the players view
       blit(currentlevel->level_buffer, v->back_map_buffer,
+          source_x, source_y,
+          v->bordersize, v->bordersize, v->w, v->h);
+            
+      // blit the players view to the screen buffer
+      blit(v->back_map_buffer, screen_buffer, 0, 0, v->x, v->y, v->w+2*v->bordersize, v->h+2*v->bordersize);
+
+      
+      
+      /*blit(currentlevel->level_buffer, v->back_map_buffer,
            ship->xpos - (v->w / 2), ship->ypos - (v->h / 2), v->bordersize,
            v->bordersize, v->w, v->h);
       // does the level wrap in x
@@ -493,7 +537,7 @@ GameSequence *BattleSequence::doTick(ALLEGRO_BITMAP *screen_buffer,
         }
       }
       blit(v->back_map_buffer, screen_buffer, 0, 0, v->x, v->y,
-           v->w + 2 * v->bordersize, v->h + 2 * v->bordersize);
+           v->w + 2 * v->bordersize, v->h + 2 * v->bordersize);*/
     }
 
     if (Gameover()) {

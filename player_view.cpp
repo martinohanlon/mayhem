@@ -133,7 +133,7 @@ void draw_basic_player_view(struct player_view *v, int nbviews,
             shield_col);
     }
     // reset clip after
-    set_clip(v->back_map_buffer, v->bordersize, v->bordersize, v->w, v->h);
+    set_clip(v->back_map_buffer, v->bordersize, v->bordersize, v->w + v->bordersize, v->h + v->bordersize);
     v++;
   }
 }
