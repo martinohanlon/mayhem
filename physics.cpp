@@ -89,14 +89,15 @@ bool test_landed(struct vaisseau_data *vaisseau, struct platform_data *plt) {
   int xmax = plt->xmax - 23;   // centrage
   int yflat = plt->yflat - 29; // centrage
 
-  if ((xmin <= vaisseau->xpos) && (vaisseau->xpos <= xmax) &&
+    if ((xmin <= vaisseau->xpos) && (vaisseau->xpos <= xmax) &&
       ((vaisseau->ypos == yflat) || ((vaisseau->ypos - 1) == yflat) ||
        ((vaisseau->ypos - 2) == yflat) || ((vaisseau->ypos - 3) == yflat)) &&
-      (fixtoi(vaisseau->vy) > 0) &&
-      ((vaisseau->angle & 0xff) <= 12 || (vaisseau->angle & 0xff) >= 243)) {
+      //(fixtoi(vaisseau->vy) > 0) &&
+      (vaisseau->angle  <= 20 || vaisseau->angle >= 340)) {
     vaisseau->vy = -fixdiv(vaisseau->vy, ftofix(1.2));
     vaisseau->vx = fixdiv(vaisseau->vx, ftofix(1.1));
     vaisseau->angle = 0;
+    vaisseau->angle_precise = 0;
     vaisseau->ypos = yflat;
     vaisseau->yposprecise = itofix(yflat);
 

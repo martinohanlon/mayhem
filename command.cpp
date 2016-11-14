@@ -19,12 +19,6 @@ void handle_command(struct command *cmd, double dt) {
   if (!vaisseau->explode) {
 
     if (!(vaisseau->landed) || (vaisseau->rebound)) {
-    /*  if (cmd->left)	 // Left arrow?
-         vaisseau->angle -= vaisseau->anglestep * (dt / 0.025); // yes, on tourne a droite
-            
-      if (cmd->right) // Right arrow?
-         vaisseau->angle += vaisseau->anglestep * (dt / 0.025);  // yes, on tourne a gauche
-      */
       if (cmd->left) // Left arrow?
         vaisseau->angle_precise -=
             vaisseau->anglestep * (dt / 0.025); // yes, on tourne a droite
