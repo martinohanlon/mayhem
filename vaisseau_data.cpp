@@ -68,7 +68,7 @@ int init_vaisseau_data(struct vaisseau_data *v, struct vaisseau_gfx *gfx,
     return -1;
   clear_bitmap(v->sprite_buffer_rota); // On nettoye
 
-  int num_frames = 360 / VAISSEAU_ANGLESTEP;
+  int num_frames = (360 / anglestep) + 1; // Add one frame for handling rounding errors
 
   v->coll_map.init(32, 32, num_frames);
 
