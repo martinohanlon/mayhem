@@ -95,6 +95,9 @@ void GameManager::Init() {
   al_set_new_display_flags(GFXOPENARG);
 
   GameManager::display = al_create_display(display_width, display_height);
+  
+  // hide mouse pointer
+  al_hide_mouse_cursor(GameManager::display);
 }
 
 void GameManager::ChangeScreenRes(int width, int height) {
