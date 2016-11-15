@@ -170,11 +170,17 @@ void GameManager::Run(GameSequence *aSeq) {
   double last_time = al_get_time();
   const double delta_min = ALLEGRO_BPS_TO_SECS(GameManager::FPS);
 
+  //joy debug
+  /*
+  char debug[50];
+  int but = 0, axis = 0;
+  double pos = 0.0;
+  */
   while (!doexit) {
 
     ALLEGRO_EVENT ev;
 
-    while (al_get_next_event(event_queue, &ev)) {
+    while (al_get_next_event(event_queue, &ev)) {  
       if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
         key_pressed[ev.keyboard.keycode] = true;
         key_down[ev.keyboard.keycode] = true;
@@ -183,6 +189,16 @@ void GameManager::Run(GameSequence *aSeq) {
         key_down[ev.keyboard.keycode] = false;
       } else if (ev.type == XC_EVENT_AXIS || ev.type == XC_EVENT_BUTTON_DOWN ||
                  ev.type == XC_EVENT_BUTTON_UP) {
+                   
+        //joy debug
+        /*
+        if (ev.type == XC_EVENT_BUTTON_DOWN) but = ev.joystick.button;
+        if (ev.type == XC_EVENT_AXIS) {
+          axis = ev.joystick.axis;
+          pos = ev.joystick.pos;
+        }
+        */
+
         xc_update(ev);
       } else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
         exit_game = true;
@@ -207,6 +223,13 @@ void GameManager::Run(GameSequence *aSeq) {
       last_time = now;
       tick_time = al_get_time() - now;
     }
+
+    // joy debug
+    /*
+    sprintf(debug, "%i.%i.%i", but, axis, pos);
+    //sprintf(debug, "%s", al_get_joystick_name(GameManager::joysticks[0]->joy));
+    textout(screen_buffer, GameManager::font, debug, 605, 5, al_map_rgb(200, 200, 200));
+    */
 
     draw_fps(screen_buffer);
     al_set_target_bitmap(al_get_backbuffer(GameManager::display));

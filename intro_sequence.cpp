@@ -30,19 +30,27 @@ IntroSequence::IntroSequence(GameSequence *previous, float zoom,
   liveschoice = lives;
   dcachoice = dca;
   wallchoice = wall;
+  
+  menu_joy_layout1_idx = 10;
+  menu_joy_layout2_idx = 15;
+  menu_joy_layout3_idx = 20;
+  menu_joy_layout4_idx = 25;
 
-  menu_kbd_layout1_idx = 10;
-  menu_kbd_layout2_idx = 15;
-  menu_kbd_layout3_idx = 20;
-  menu_kbd_layout4_idx = 25;
-
-  menu_joy_layout1_idx = 30;
-  menu_joy_layout2_idx = 35;
-  menu_joy_layout3_idx = 40;
-  menu_joy_layout4_idx = 45;
+  menu_kbd_layout1_idx = 30;
+  menu_kbd_layout2_idx = 35;
+  menu_kbd_layout3_idx = 40;
+  menu_kbd_layout4_idx = 45;
 
   assert(GameManager::num_joysticks_loaded >= 0 &&
          GameManager::num_joysticks_loaded <= 4);
+
+  // setup player_controls based on number of joysticks, if there are joysticks use them first, otherwise use keyboard
+  int playercontrol;
+  for (playercontrol = 0; playercontrol < GameManager::num_joysticks_loaded; playercontrol++)
+    playercontrols[playercontrol] = static_cast<CONTROL_ID>(4 + playercontrol);
+
+  for (playercontrol = GameManager::num_joysticks_loaded; playercontrol < NB_MAX_PLAYERS; playercontrol++)
+    playercontrols[playercontrol] = static_cast<CONTROL_ID>(playercontrol - GameManager::num_joysticks_loaded);
 
   menu_resolution_idx =
       menu_joy_layout1_idx + GameManager::num_joysticks_loaded * 5;
@@ -146,26 +154,6 @@ GameSequence *IntroSequence::doTick(ALLEGRO_BITMAP *screen_buffer,
 
     mh.addline("Controller layouts:", false, 15);
 
-    for (int i = 0; i < 4; i++) {
-      snprintf(menutext, sizeof(menutext), "   Keyboard %d", (i + 1));
-      mh.addline(menutext, false, 10);
-      snprintf(menutext, sizeof(menutext), "      Left   - %s",
-               key_to_str(mapping_key::key_sets[i][0]));
-      mh.addline(menutext);
-      snprintf(menutext, sizeof(menutext), "      Right  - %s",
-               key_to_str(mapping_key::key_sets[i][1]));
-      mh.addline(menutext);
-      snprintf(menutext, sizeof(menutext), "      Thrust - %s",
-               key_to_str(mapping_key::key_sets[i][2]));
-      mh.addline(menutext);
-      snprintf(menutext, sizeof(menutext), "      Shield - %s",
-               key_to_str(mapping_key::key_sets[i][3]));
-      mh.addline(menutext);
-      snprintf(menutext, sizeof(menutext), "      Fire   - %s",
-               key_to_str(mapping_key::key_sets[i][4]));
-      mh.addline(menutext);
-    }
-
     if (GameManager::num_joysticks_loaded > 0) {
       for (int i = 0; i < GameManager::num_joysticks_loaded; i++) {
         snprintf(menutext, sizeof(menutext), "   Joystick %d", (i + 1));
@@ -186,6 +174,26 @@ GameSequence *IntroSequence::doTick(ALLEGRO_BITMAP *screen_buffer,
                  button_to_str(mapping_joy::btn_sets[i][4]));
         mh.addline(menutext);
       }
+    }
+
+    for (int i = 0; i < 4; i++) {
+      snprintf(menutext, sizeof(menutext), "   Keyboard %d", (i + 1));
+      mh.addline(menutext, false, 10);
+      snprintf(menutext, sizeof(menutext), "      Left   - %s",
+               key_to_str(mapping_key::key_sets[i][0]));
+      mh.addline(menutext);
+      snprintf(menutext, sizeof(menutext), "      Right  - %s",
+               key_to_str(mapping_key::key_sets[i][1]));
+      mh.addline(menutext);
+      snprintf(menutext, sizeof(menutext), "      Thrust - %s",
+               key_to_str(mapping_key::key_sets[i][2]));
+      mh.addline(menutext);
+      snprintf(menutext, sizeof(menutext), "      Shield - %s",
+               key_to_str(mapping_key::key_sets[i][3]));
+      mh.addline(menutext);
+      snprintf(menutext, sizeof(menutext), "      Fire   - %s",
+               key_to_str(mapping_key::key_sets[i][4]));
+      mh.addline(menutext);
     }
 
     snprintf(menutext, sizeof(menutext), "Resolution (%ix%i):   ", width,
