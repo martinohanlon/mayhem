@@ -38,13 +38,13 @@ bool is_pressed(XC_STATE *joystick, JoyButton button) {
   case JoyButton::RIGHT_TRIGGER:
     return (joystick->right_trigger >= 0.6);
   case JoyButton::DPAD_X_LEFT:
-    return (joystick->dpad_x <= -0.6);
+    return (joystick->dpad_left);
   case JoyButton::DPAD_X_RIGHT:
-    return (joystick->dpad_x >= 0.6);
+    return (joystick->dpad_right);
   case JoyButton::DPAD_Y_UP:
-    return (joystick->dpad_y <= -0.6);
+    return (joystick->dpad_up);
   case JoyButton::DPAD_Y_DOWN:
-    return (joystick->dpad_y >= 0.6);
+    return (joystick->dpad_down);
   case JoyButton::BUTTON_A:
     return (joystick->button_a);
   case JoyButton::BUTTON_B:

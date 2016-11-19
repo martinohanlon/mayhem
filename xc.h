@@ -9,6 +9,21 @@
 #define XC_CONFIGURATION ALLEGRO_EVENT_JOYSTICK_CONFIGURATION
 
 typedef struct {
+  bool analog_output;
+  bool trigger;
+  float* position;
+  bool* negative;
+  bool* positive;
+} XC_STICK_AXIS_MAP;
+
+typedef struct {
+  int num_buttons;
+  bool* button_map[15];
+  int num_sticks;
+  XC_STICK_AXIS_MAP stick_map[4][2];
+} XC_MAP;
+
+typedef struct {
   // axis values
   float left_stick_x;
   float left_stick_y;
@@ -16,8 +31,10 @@ typedef struct {
   float right_stick_x;
   float right_stick_y;
   float right_trigger;
-  float dpad_x;
-  float dpad_y;
+  bool dpad_up;
+  bool dpad_down;
+  bool dpad_left;
+  bool dpad_right;
   // buttons pressed
   bool button_a;
   bool button_b;
@@ -32,6 +49,9 @@ typedef struct {
   bool button_xbox;
   // reference to the underlying joystick object
   ALLEGRO_JOYSTICK *joy;
+  XC_MAP controls_map;
+  int num_buttons;
+  bool* button_map[15];
 } XC_STATE;
 
 bool xc_install();
@@ -41,5 +61,7 @@ void xc_free_state(XC_STATE *state);
 void xc_update(ALLEGRO_EVENT event);
 XC_STATE *xc_get_state(int num);
 ALLEGRO_EVENT_SOURCE *xc_get_event_source();
-
+void setup_controller_map(XC_STATE *state);
+void setup_default_controller_map(XC_STATE *state);
+void setup_xinput_controller_map(XC_STATE *state);
 #endif
