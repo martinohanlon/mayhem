@@ -92,7 +92,7 @@ bool test_landed(struct vaisseau_data *vaisseau, struct platform_data *plt) {
     if ((xmin <= vaisseau->xpos) && (vaisseau->xpos <= xmax) &&
       ((vaisseau->ypos == yflat) || ((vaisseau->ypos - 1) == yflat) ||
        ((vaisseau->ypos - 2) == yflat) || ((vaisseau->ypos - 3) == yflat)) &&
-      //(fixtoi(vaisseau->vy) > 0) &&
+      (vaisseau->vy > 0) &&
       (vaisseau->angle  <= 20 || vaisseau->angle >= 340)) {
     vaisseau->vy = -fixdiv(vaisseau->vy, ftofix(1.2));
     vaisseau->vx = fixdiv(vaisseau->vx, ftofix(1.1));
