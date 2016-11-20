@@ -80,7 +80,7 @@ struct platform_data platforms5[] = {
     {8, 37, 187},     {302, 351, 271},  {434, 521, 835}, {60, 127, 1045},
     {348, 377, 1089}, {499, 586, 1165}, {68, 145, 1181}};
 int numplatforms5 = 11;
-struct edge_data edgedata5 = {0, 791, 0, 1500, true, false};
+struct edge_data edgedata5 = {0, 790, 0, 1500, true, false};
 
 // LEVEL 6
 struct platform_data platforms6[] = {
@@ -88,7 +88,7 @@ struct platform_data platforms6[] = {
     {487, 547, 617}, {705, 755, 231}, {344, 393, 207},
     {326, 377, 805}, {502, 554, 987}, {66, 145, 1180}};
 int numplatforms6 = 9;
-struct edge_data edgedata6 = {0, 791, 0, 1500, true, false};
+struct edge_data edgedata6 = {0, 790, 0, 1500, true, false};
 
 bool joystick_back_button_pressed() {
   for (int i = 0; i < GameManager::num_joysticks_loaded; i++) {
