@@ -30,17 +30,6 @@ IntroSequence::IntroSequence(GameSequence *previous, float zoom,
   liveschoice = lives;
   dcachoice = dca;
   wallchoice = wall;
-  
-  menu_joy_layout1_idx = 10;
-  menu_joy_layout2_idx = 15;
-  menu_joy_layout3_idx = 20;
-  menu_joy_layout4_idx = 25;
-
-  menu_kbd_layout1_idx = 30;
-  menu_kbd_layout2_idx = 35;
-  menu_kbd_layout3_idx = 40;
-  menu_kbd_layout4_idx = 45;
-
   assert(GameManager::num_joysticks_loaded >= 0 &&
          GameManager::num_joysticks_loaded <= 4);
 
@@ -51,12 +40,6 @@ IntroSequence::IntroSequence(GameSequence *previous, float zoom,
 
   for (playercontrol = GameManager::num_joysticks_loaded; playercontrol < NB_MAX_PLAYERS; playercontrol++)
     playercontrols[playercontrol] = static_cast<CONTROL_ID>(playercontrol - GameManager::num_joysticks_loaded);
-
-  menu_resolution_idx =
-      menu_joy_layout1_idx + GameManager::num_joysticks_loaded * 5;
-  menu_exit_idx = menu_resolution_idx + 1;
-
-  menuitems = menu_exit_idx + 1;
 }
 
 IntroSequence::~IntroSequence() {
@@ -153,10 +136,38 @@ GameSequence *IntroSequence::doTick(ALLEGRO_BITMAP *screen_buffer,
     mh.addline(menutext);
 
     mh.addline("Controller layouts:", false, 15);
-
+    
+    menu_joy_kbd_idx = 10;
+  
+    menu_kbd_layout1_idx = 0;
+    menu_kbd_layout2_idx = 0;
+    menu_kbd_layout3_idx = 0;
+    menu_kbd_layout4_idx = 0;
+    menu_kbd_layout_end = 0;
+  
+    menu_joy_layout1_idx = 0;
+    menu_joy_layout2_idx = 0;
+    menu_joy_layout3_idx = 0;
+    menu_joy_layout4_idx = 0;
+    menu_joy_layout_end = 0;
+    
     if (GameManager::num_joysticks_loaded > 0) {
       for (int i = 0; i < GameManager::num_joysticks_loaded; i++) {
-        snprintf(menutext, sizeof(menutext), "   Joystick %d", (i + 1));
+        switch (i) {
+          case 0:
+            menu_joy_layout1_idx = menu_joy_kbd_idx;
+            break;
+          case 1:
+            menu_joy_layout2_idx = menu_joy_kbd_idx;
+            break;
+          case 2:
+            menu_joy_layout3_idx = menu_joy_kbd_idx;
+            break;
+          case 3:
+            menu_joy_layout4_idx = menu_joy_kbd_idx;
+            break;
+        }
+        snprintf(menutext, sizeof(menutext), "   Joystick %d %s", (i + 1), al_get_joystick_name(GameManager::joysticks[i]->joy));
         mh.addline(menutext, false, 10);
         snprintf(menutext, sizeof(menutext), "      Left   - %s",
                  button_to_str(mapping_joy::btn_sets[i][0]));
@@ -173,10 +184,27 @@ GameSequence *IntroSequence::doTick(ALLEGRO_BITMAP *screen_buffer,
         snprintf(menutext, sizeof(menutext), "      Fire   - %s",
                  button_to_str(mapping_joy::btn_sets[i][4]));
         mh.addline(menutext);
+        menu_joy_kbd_idx = menu_joy_kbd_idx + 5;
+        menu_joy_layout_end = menu_joy_kbd_idx;
       }
     }
 
     for (int i = 0; i < 4; i++) {
+      switch (i) {
+        case 0:
+          menu_kbd_layout1_idx = menu_joy_kbd_idx;
+          break;
+        case 1:
+          menu_kbd_layout2_idx = menu_joy_kbd_idx;
+          break;
+        case 2:
+          menu_kbd_layout3_idx = menu_joy_kbd_idx;
+          break;
+        case 3:
+          menu_kbd_layout4_idx = menu_joy_kbd_idx;
+          break;
+      }
+      
       snprintf(menutext, sizeof(menutext), "   Keyboard %d", (i + 1));
       mh.addline(menutext, false, 10);
       snprintf(menutext, sizeof(menutext), "      Left   - %s",
@@ -194,11 +222,17 @@ GameSequence *IntroSequence::doTick(ALLEGRO_BITMAP *screen_buffer,
       snprintf(menutext, sizeof(menutext), "      Fire   - %s",
                key_to_str(mapping_key::key_sets[i][4]));
       mh.addline(menutext);
+      menu_joy_kbd_idx = menu_joy_kbd_idx + 5;
+      menu_kbd_layout_end = menu_joy_kbd_idx;
     }
 
     snprintf(menutext, sizeof(menutext), "Resolution (%ix%i):   ", width,
              height);
     mh.addline(menutext, false, 15);
+
+    menu_resolution_idx = menu_joy_kbd_idx;
+    menu_exit_idx = menu_resolution_idx + 1;
+    menuitems = menu_exit_idx + 1;
 
     if (width == GameManager::native_width &&
         height == GameManager::native_height)
@@ -425,19 +459,20 @@ void IntroSequence::handle_key_presses(bool key_pressed[ALLEGRO_KEY_MAX],
 
       int keyboard_set = -1;
       int start_idx = -1;
-      if (menuselected >= menu_kbd_layout1_idx &&
-          menuselected < menu_kbd_layout2_idx) {
+
+      if (menuselected >= menu_kbd_layout1_idx) {
         keyboard_set = 0;
         start_idx = menu_kbd_layout1_idx;
-      } else if (menuselected >= menu_kbd_layout2_idx &&
-                 menuselected < menu_kbd_layout3_idx) {
+      }
+      if (menu_kbd_layout2_idx != 0 && menuselected >= menu_kbd_layout2_idx) {
         keyboard_set = 1;
         start_idx = menu_kbd_layout2_idx;
-      } else if (menuselected >= menu_kbd_layout3_idx &&
-                 menuselected < menu_kbd_layout4_idx) {
+      }
+      if (menu_kbd_layout3_idx != 0 && menuselected >= menu_kbd_layout3_idx) {
         keyboard_set = 2;
         start_idx = menu_kbd_layout3_idx;
-      } else {
+      }
+      if (menu_kbd_layout4_idx != 0 && menuselected >= menu_kbd_layout4_idx) {
         keyboard_set = 3;
         start_idx = menu_kbd_layout4_idx;
       }
@@ -451,27 +486,30 @@ void IntroSequence::handle_key_presses(bool key_pressed[ALLEGRO_KEY_MAX],
     }
   } else if (selecting_new_joystick_button) {
     JoyButton button;
+
+    int joy_set = -1;
+    int start_idx = -1;
+    
+    if (menuselected >= menu_joy_layout1_idx) {
+      joy_set = 0;
+      start_idx = menu_joy_layout1_idx;
+    }
+    if (menu_joy_layout2_idx != 0 && menuselected >= menu_joy_layout2_idx) {
+      joy_set = 1;
+      start_idx = menu_joy_layout2_idx;
+    }
+    if (menu_joy_layout3_idx != 0 && menuselected >= menu_joy_layout3_idx) {
+      joy_set = 2;
+      start_idx = menu_joy_layout3_idx;
+    }
+    if (menu_joy_layout4_idx != 0 && menuselected >= menu_joy_layout4_idx) {
+      joy_set = 3;
+      start_idx = menu_joy_layout4_idx;
+    }
+    int key_idx = menuselected - start_idx;
+
     if (joystick_action_timer.is_done() &&
-        get_first_joystick_button_pressed(GameManager::joysticks[0], &button)) {
-      int joy_set = -1;
-      int start_idx = -1;
-      if (menuselected >= menu_joy_layout1_idx &&
-          menuselected < menu_joy_layout2_idx) {
-        joy_set = 0;
-        start_idx = menu_joy_layout1_idx;
-      } else if (menuselected >= menu_joy_layout2_idx &&
-                 menuselected < menu_joy_layout3_idx) {
-        joy_set = 1;
-        start_idx = menu_joy_layout2_idx;
-      } else if (menuselected >= menu_joy_layout3_idx &&
-                 menuselected < menu_joy_layout4_idx) {
-        joy_set = 2;
-        start_idx = menu_joy_layout3_idx;
-      } else {
-        joy_set = 3;
-        start_idx = menu_joy_layout4_idx;
-      }
-      int key_idx = menuselected - start_idx;
+        get_first_joystick_button_pressed(GameManager::joysticks[joy_set], &button)) {
 
       mapping_joy::btn_sets[joy_set][key_idx] = button;
 
@@ -642,10 +680,10 @@ void IntroSequence::handle_key_presses(bool key_pressed[ALLEGRO_KEY_MAX],
     } else if (menuselected == menu_exit_idx) {
       *exit = true;
     } else if (menuselected >= menu_kbd_layout1_idx &&
-               menuselected < (menu_kbd_layout4_idx + 5)) {
+               menuselected < menu_kbd_layout_end) {
       selecting_new_keyboard_button = true;
     } else if (menuselected >= menu_joy_layout1_idx &&
-               menuselected < (menu_joy_layout4_idx + 5)) {
+               menuselected < menu_joy_layout_end) {
       selecting_new_joystick_button = true;
     }
   }

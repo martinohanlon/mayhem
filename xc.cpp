@@ -145,12 +145,12 @@ void setup_xinput_controller_map(XC_STATE *state) {
   
   //sticks
   state->controls_map.num_sticks = 4;
-  // left stick 0
+  // left stick
   state->controls_map.stick_map[0][0].analog_output = true;
   state->controls_map.stick_map[0][0].position = &state->left_stick_x;
   state->controls_map.stick_map[0][1].analog_output = true;
   state->controls_map.stick_map[0][1].position = &state->left_stick_y;
-  //right stick 1
+  //right stick
   state->controls_map.stick_map[1][0].analog_output = true;
   state->controls_map.stick_map[1][0].position = &state->right_stick_x;
   state->controls_map.stick_map[1][1].analog_output = true;

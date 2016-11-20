@@ -25,19 +25,6 @@ double fixsin(double v) { return std::sin(v * PI / 180); }
 double fixcos(double v) { return std::cos(v * PI / 180); }
 double fixacos(double v) { return std::acos(v * PI / 180); }
 
-/*int fixtoi(al_fixed x) {return al_fixtoi(x); }
-al_fixed fixmul(al_fixed x, al_fixed y) {return al_fixmul(x, y); }
-al_fixed fixdiv(al_fixed x, al_fixed y) {return al_fixdiv(x, y); }
-al_fixed fixadd(al_fixed x, al_fixed y) {return al_fixadd(x, y); }
-al_fixed fixsub(al_fixed x, al_fixed y) {return al_fixsub(x, y); }
-al_fixed fixhypot(al_fixed x, al_fixed y) {return al_fixhypot(x, y); }
-al_fixed itofix(int x) {return al_itofix(x); }
-al_fixed ftofix(double x) {return al_ftofix(x); }
-double fixtof(al_fixed x) {return al_fixtof(x); }
-al_fixed fixsin(al_fixed x) {return al_fixsin(x); }
-al_fixed fixcos(al_fixed x) {return al_fixcos(x); }
-al_fixed fixacos(al_fixed x) {return al_fixacos(x); }*/
-
 void clear_bitmap(ALLEGRO_BITMAP *bitmap) {
   al_set_target_bitmap(bitmap);
   al_clear_to_color(al_map_rgba(0, 0, 0, 0));

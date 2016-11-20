@@ -55,16 +55,20 @@ private:
 
   int menu_exit_idx = 0;
   int menu_resolution_idx = 0;
-
+  
+  int menu_joy_kbd_idx = 0;
+  
   int menu_kbd_layout1_idx = 0;
   int menu_kbd_layout2_idx = 0;
   int menu_kbd_layout3_idx = 0;
   int menu_kbd_layout4_idx = 0;
-
+  int menu_kbd_layout_end = 0;
+  
   int menu_joy_layout1_idx = 0;
   int menu_joy_layout2_idx = 0;
   int menu_joy_layout3_idx = 0;
   int menu_joy_layout4_idx = 0;
+  int menu_joy_layout_end = 0;
 
   bool selecting_new_keyboard_button = false;
   bool selecting_new_joystick_button = false;

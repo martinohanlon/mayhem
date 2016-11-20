@@ -16,18 +16,6 @@ double fixsin(double v);
 double fixcos(double v);
 double fixacos(double v);
 double fixhypot(double v0, double v1);
-/*int fixtoi(al_fixed x);
-al_fixed fixmul(al_fixed x, al_fixed y);
-al_fixed fixdiv(al_fixed x, al_fixed y);
-al_fixed fixadd(al_fixed x, al_fixed y);
-al_fixed fixsub(al_fixed x, al_fixed y);
-al_fixed fixhypot(al_fixed x, al_fixed y);
-al_fixed itofix(int x);
-al_fixed ftofix(double x);
-double fixtof(al_fixed x);
-al_fixed fixsin(al_fixed x);
-al_fixed fixcos(al_fixed x);
-al_fixed fixacos(al_fixed x);*/
 
 void clear_bitmap(ALLEGRO_BITMAP *bitmap);
 void hline(ALLEGRO_BITMAP *bmp, int x1, int y, int x2, ALLEGRO_COLOR color);
