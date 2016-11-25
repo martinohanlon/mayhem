@@ -154,9 +154,8 @@ void GameManager::Run(GameSequence *aSeq) {
 
   al_register_event_source(event_queue, xc_get_event_source());
 
-  ALLEGRO_BITMAP *screen_buffer;
-  screen_buffer =
-      al_create_bitmap(GameManager::display_width, GameManager::display_height);
+
+  auto screen_buffer = al_get_backbuffer(GameManager::display);
   al_set_target_bitmap(screen_buffer);
   al_clear_to_color(al_map_rgb(0, 0, 0));
 
@@ -232,8 +231,6 @@ void GameManager::Run(GameSequence *aSeq) {
     */
 
     draw_fps(screen_buffer);
-    al_set_target_bitmap(al_get_backbuffer(GameManager::display));
-    al_draw_bitmap(screen_buffer, 0, 0, 0);
     al_flip_display();
 
     if (doexit) {
