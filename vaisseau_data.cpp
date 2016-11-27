@@ -54,14 +54,7 @@ int init_vaisseau_data(struct vaisseau_data *v, struct vaisseau_gfx *gfx,
   }
 
   v->gfx = gfx;
-  v->sprite_buffer =
-      al_create_bitmap(32, 32); // create ALLEGRO_BITMAP pour le sprite
-  if (!v->sprite_buffer)
-    return -1;
-  clear_bitmap(v->sprite_buffer); // On nettoye
-  blit(gfx->sprite, v->sprite_buffer, 0, 0, 0, 0, 32,
-       32); // blit le sprite dans son buffer
-
+  v->sprite_ptr = gfx->sprite;
   v->sprite_buffer_rota =
       al_create_bitmap(32, 32); // create ALLEGRO_BITMAP pour le sprite
   if (!v->sprite_buffer_rota)
@@ -75,7 +68,7 @@ int init_vaisseau_data(struct vaisseau_data *v, struct vaisseau_gfx *gfx,
   for (int frame = 0; frame < num_frames; frame++) {
     double angle = v->anglestep * frame;
     clear_bitmap(v->sprite_buffer_rota);
-    rotate_sprite(v->sprite_buffer_rota, v->sprite_buffer, 0, 0, angle);
+    rotate_sprite(v->sprite_buffer_rota, v->sprite_ptr, 0, 0, angle);
 
     ALLEGRO_LOCKED_REGION *reg = al_lock_bitmap(
         v->sprite_buffer_rota, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READONLY);
@@ -96,8 +89,6 @@ int init_vaisseau_data(struct vaisseau_data *v, struct vaisseau_gfx *gfx,
 }
 
 void clean_vaisseau_data(struct vaisseau_data *v) {
-  if (v->sprite_buffer)
-    al_destroy_bitmap(v->sprite_buffer); // On nettoye
   if (v->sprite_buffer_rota)
     al_destroy_bitmap(v->sprite_buffer_rota); // On nettoye
 }
@@ -184,7 +175,7 @@ void collision_map::init(int width_in, int height_in, int num_frames_in) {
   }
 }
 
-collision_map::~collision_map() { delete coll_map; }
+collision_map::~collision_map() { delete[] coll_map; }
 
 bool collision_map::is_collide_pixel(int x, int y, int frame) {
   return coll_map[get_index(x, y, frame)];

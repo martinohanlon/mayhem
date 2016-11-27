@@ -35,9 +35,9 @@ void handle_command(struct command *cmd, double dt) {
 
       if (vaisseau->shield &&
           vaisseau->shield_force > 0) // test shield si pas thrust
-        vaisseau->sprite_buffer = vaisseau->gfx->sprite_shield; // oui shield
+        vaisseau->sprite_ptr = vaisseau->gfx->sprite_shield; // oui shield
       else
-        vaisseau->sprite_buffer = vaisseau->gfx->sprite; // non, normal
+        vaisseau->sprite_ptr = vaisseau->gfx->sprite; // non, normal
 
       vaisseau->thrust = (0); // pas de thrust
 
@@ -46,15 +46,15 @@ void handle_command(struct command *cmd, double dt) {
       if (vaisseau->fuel > 0 && cmd->thrust) {
         // pointe le sprite thrust
         if (vaisseau->option_type != OPT_THRUST)
-          vaisseau->sprite_buffer = vaisseau->gfx->sprite_thrust;
+          vaisseau->sprite_ptr = vaisseau->gfx->sprite_thrust;
         else
-          vaisseau->sprite_buffer = vaisseau->gfx->sprite_thrust2;
+          vaisseau->sprite_ptr = vaisseau->gfx->sprite_thrust2;
         vaisseau->thrust = vaisseau->thrust_max; // acceleration
         vaisseau->shield = false;                // shield desactiv
         vaisseau->landed = false;                // pas pos
       } else {
         vaisseau->thrust = (0);                          // pas de thrust
-        vaisseau->sprite_buffer = vaisseau->gfx->sprite; // non, normal
+        vaisseau->sprite_ptr = vaisseau->gfx->sprite; // non, normal
         vaisseau->shield = false;                        // shield desactiv
       }
     }

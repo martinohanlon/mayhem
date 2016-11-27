@@ -41,7 +41,7 @@ struct collision_map {
   int height;
   int num_frames;
 
-  bool *coll_map;
+  bool *coll_map = nullptr;
 };
 
 struct tir_data {
@@ -88,7 +88,7 @@ struct vaisseau_data {
   bool fire_delay;
   bool landed;
   bool rebound;
-  ALLEGRO_BITMAP *sprite_buffer; // Image du vaisseau
+  ALLEGRO_BITMAP *sprite_ptr; // Image du vaisseau
   ALLEGRO_BITMAP *sprite_buffer_rota;
   collision_map coll_map;
   struct vaisseau_gfx *gfx;
