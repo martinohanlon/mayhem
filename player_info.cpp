@@ -3,7 +3,7 @@
 
 #include <string.h>
 
-void init_player_info(struct player_info *player, char *name, int nblives,
+void init_player_info(struct player_info *player, const char *name, int nblives,
                       struct vaisseau_data *ship) {
   strncpy(player->name, name, MAXPLAYERNAME);
   player->nblives = nblives;

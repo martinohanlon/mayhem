@@ -23,9 +23,9 @@ struct soundfx {
   ALLEGRO_SAMPLE *rebound; // one shot
 };
 
-int init_soundfx_from_wavfile(struct soundfx *sfx, char *thrustwav,
-                              char *shieldwav, char *refuelwav, char *shootwav,
-                              char *boomwav, char *rebound);
+int init_soundfx_from_wavfile(struct soundfx *sfx, const char *thrustwav,
+                              const char *shieldwav, const char *refuelwav, const char *shootwav,
+                              const char *boomwav, const char *rebound);
 
 void cleanup_soundfx(struct soundfx *sfx);
 void play_soundfx_from_shipdata(struct soundfx *sfx, struct vaisseau_data *v);

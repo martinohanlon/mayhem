@@ -10,6 +10,6 @@ struct mapping_key {
 
 void init_mapping_key(struct mapping_key *keymap, int keysetno);
 
-char *key_to_str(int key);
+const char *key_to_str(int key);
 
 #endif

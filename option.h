@@ -20,7 +20,7 @@
 #define OPT_THRUST_MAX 0.47
 
 struct option_sprite {
-  char *sprite_name;
+  const char *sprite_name;
   ALLEGRO_BITMAP *sprite;
   //    PALETTE sprite_colors;
 };
