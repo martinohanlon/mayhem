@@ -142,7 +142,7 @@ void rotate_sprite(struct player_view *v) {
   struct vaisseau_data *ship = v->player->ship;
 
   clear_bitmap(ship->sprite_buffer_rota);
-  rotate_sprite(ship->sprite_buffer_rota, ship->sprite_buffer, 0, 0,
+  rotate_sprite(ship->sprite_buffer_rota, ship->sprite_ptr, 0, 0,
                 itofix(ship->angle));
 }
 
