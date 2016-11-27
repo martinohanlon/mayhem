@@ -237,9 +237,8 @@ void GameManager::Run(GameSequence *aSeq) {
     al_flip_display();
 
     if (doexit) {
-      auto iReturnScreen = aSeq->ReturnScreen();
-      if (seq_next != iReturnScreen && iReturnScreen)
-        delete iReturnScreen;
+      if (seq_next != nullptr && seq_next->ReturnScreen() != aSeq)
+        delete aSeq;
 
       if (exit_game)
         break;
