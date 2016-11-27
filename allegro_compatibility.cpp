@@ -23,7 +23,7 @@ double ftofix(double v) { return v; }
 double fixtof(double v) { return v; }
 double fixsin(double v) { return std::sin(v * PI / 180); }
 double fixcos(double v) { return std::cos(v * PI / 180); }
-double fixacos(double v) { return std::acos(v * PI / 180); }
+double fixacos(double v) { return std::acos(v) * (180 / PI); }
 
 void clear_bitmap(ALLEGRO_BITMAP *bitmap) {
   al_set_target_bitmap(bitmap);
