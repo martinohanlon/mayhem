@@ -91,4 +91,6 @@ void unload_level(struct level_data *leveldat) {
     al_destroy_bitmap(leveldat->mini_bitmap_buffer);
   if (leveldat->collision_bitmap)
     al_destroy_bitmap(leveldat->collision_bitmap);
+  if (leveldat->level_buffer)
+    al_destroy_bitmap(leveldat->level_buffer);
 }
