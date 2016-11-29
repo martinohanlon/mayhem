@@ -11,7 +11,7 @@ public:
   void reset();
   void draw(ALLEGRO_BITMAP *screen_buffer, ALLEGRO_FONT *font);
 
-  void addline(char *line, bool selectable = true, int offset = 10);
+  void addline(const char *line, bool selectable = true, int offset = 10);
 
   int get_current_line_index();
 

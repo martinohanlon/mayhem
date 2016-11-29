@@ -30,22 +30,22 @@ struct edge_data {
 
 // CHANGE THESE TO BE SHIP ASSETS, which would include wavs
 struct level_ship_assets {
-  char *normalsprite;
-  char *thrustsprite;
-  char *thrust2sprite;
-  char *shieldsprite;
-  char *boomwav;
-  char *refuelloopwav;
-  char *shieldloopwav;
-  char *thrustloopwav;
-  char *reboundwav;
-  char *shootwav;
+  const char *normalsprite;
+  const char *thrustsprite;
+  const char *thrust2sprite;
+  const char *shieldsprite;
+  const char *boomwav;
+  const char *refuelloopwav;
+  const char *shieldloopwav;
+  const char *thrustloopwav;
+  const char *reboundwav;
+  const char *shootwav;
 };
 
 struct level_data {
-  char *bmpname;
-  char *mini_bmpname;
-  char *collision_bmpname;
+  const char *bmpname;
+  const char *mini_bmpname;
+  const char *collision_bmpname;
   ALLEGRO_BITMAP *bitmap;
   // PALETTE colormap;
   ALLEGRO_BITMAP *level_buffer;
@@ -62,19 +62,19 @@ struct level_data {
   bool wall_collision;
   struct edge_data edgedata;
   struct level_ship_assets *shipsassets;
-  char *explosion_spritename;
+  const char *explosion_spritename;
   int *particle_color_rgb;
   ALLEGRO_COLOR particle_color;
 };
 
 void init_level_dca(struct dca_data *dca, int xsrc, int ysrc, int area,
                     int delay);
-void init_level_data(struct level_data *leveldat, char *bmpname,
-                     char *mini_bmpname, char *collision_bmpname,
+void init_level_data(struct level_data *leveldat, const char *bmpname,
+                     const char *mini_bmpname, const char *collision_bmpname,
                      struct platform_data *platformdata, int nbplatforms,
                      struct edge_data edgedata,
                      struct level_ship_assets *shipsassets,
-                     char *explosion_spritename, bool use_dca,
+                     const char *explosion_spritename, bool use_dca,
                      bool wall_collision, int *particle_color_rgb);
 int load_level(struct level_data *leveldat, int largeur, int hauteur);
 void unload_level(struct level_data *leveldat);

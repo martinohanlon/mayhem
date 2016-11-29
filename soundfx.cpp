@@ -1,7 +1,7 @@
 #include "soundfx.h"
 #include "allegro5/allegro_audio.h"
 
-void init_loopedsfx(struct loopedsfx *l, char *wav, double freqStep) {
+void init_loopedsfx(struct loopedsfx *l, const char *wav, double freqStep) {
   l->sfx = al_load_sample(wav);
   l->instance = al_create_sample_instance(l->sfx);
   l->playingFlag = false;
@@ -9,9 +9,9 @@ void init_loopedsfx(struct loopedsfx *l, char *wav, double freqStep) {
   l->startFreq = 1.0;
 }
 
-int init_soundfx_from_wavfile(struct soundfx *sfx, char *thrustwav,
-                              char *shieldwav, char *refuelwav, char *shootwav,
-                              char *boomwav, char *rebound) {
+int init_soundfx_from_wavfile(struct soundfx *sfx, const char *thrustwav,
+                              const char *shieldwav, const char *refuelwav, const char *shootwav,
+                              const char *boomwav, const char *rebound) {
   init_loopedsfx(&(sfx->thrust), thrustwav, 0.0);
   init_loopedsfx(&(sfx->shield), shieldwav, 0.0);
   init_loopedsfx(&(sfx->refuel), refuelwav, 0.005);

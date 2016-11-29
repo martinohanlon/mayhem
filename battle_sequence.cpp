@@ -277,7 +277,7 @@ void BattleSequence::InitAllSpriteGfx() {
 
 void BattleSequence::InitPlayerInfo() {
   // init player info
-  char *defplayername[] = {"Player 1", "Player 2", "Player 3", "Player 4"};
+  const char *defplayername[] = {"Player 1", "Player 2", "Player 3", "Player 4"};
   for (int i = 0; i < nb_players; i++) {
     init_player_info(&players[i], defplayername[i], nb_lives, &vaisseaux[i]);
     init_ship_pos_from_platforms(&vaisseaux[i],

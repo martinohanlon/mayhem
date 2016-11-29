@@ -2,8 +2,8 @@
 
 #include "allegro_compatibility.h"
 
-bool init_vaisseau_gfx_from_file(struct vaisseau_gfx *vaisseau, char *normal,
-                                 char *thrust, char *thrust2, char *shield) {
+bool init_vaisseau_gfx_from_file(struct vaisseau_gfx *vaisseau, const char *normal,
+                                 const char *thrust, const char *thrust2, const char *shield) {
   vaisseau->sprite = al_load_bitmap(normal);
   al_convert_mask_to_alpha(vaisseau->sprite, al_map_rgb(0, 0, 0));
   vaisseau->sprite_shield = al_load_bitmap(shield);
@@ -30,7 +30,7 @@ void cleanup_vaisseau_gfx(struct vaisseau_gfx *vaisseau) {
 ALLEGRO_BITMAP *sprite_explode;
 ALLEGRO_BITMAP *sprite_explosion_frames[24];
 
-int init_sprite_explosion(char *bmpname) {
+int init_sprite_explosion(const char *bmpname) {
   sprite_explode = al_load_bitmap(bmpname);
   int i;
   for (i = 0; i < 24; i++) {

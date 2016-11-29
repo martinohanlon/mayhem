@@ -43,7 +43,7 @@ struct mapping_joy {
 
 bool is_pressed(XC_STATE *joystick, JoyButton button);
 
-char *button_to_str(JoyButton button);
+const char *button_to_str(JoyButton button);
 
 void init_mapping_joy(struct mapping_joy *joymap, int keysetno);
 

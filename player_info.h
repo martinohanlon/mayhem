@@ -11,7 +11,7 @@ struct player_info {
   struct vaisseau_data *ship;
 };
 
-void init_player_info(struct player_info *player, char *name, int nblives,
+void init_player_info(struct player_info *player, const char *name, int nblives,
                       struct vaisseau_data *ship);
 void player_exploded(struct player_info *player);
 bool player_gameover(struct player_info *player);

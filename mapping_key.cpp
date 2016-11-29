@@ -18,7 +18,7 @@ void init_mapping_key(struct mapping_key *keymap, int keysetno) {
   keymap->fire = mapping_key::key_sets[keysetno][4];
 }
 
-char *key_to_str(int key) {
+const char *key_to_str(int key) {
   switch (key) {
   case ALLEGRO_KEY_A:
     return ("A");

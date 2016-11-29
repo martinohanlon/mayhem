@@ -72,7 +72,7 @@ bool is_pressed(XC_STATE *joystick, JoyButton button) {
   }
 }
 
-char *button_to_str(JoyButton button) {
+const char *button_to_str(JoyButton button) {
   switch (button) {
   case JoyButton::LEFT_STICK_X_LEFT:
     return ("Left Stick Left");

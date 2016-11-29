@@ -68,7 +68,7 @@ void MenuHandler::draw(ALLEGRO_BITMAP *screen_buffer, ALLEGRO_FONT *font) {
   }
 }
 
-void MenuHandler::addline(char *line, bool selectable, int offset) {
+void MenuHandler::addline(const char *line, bool selectable, int offset) {
   assert(num_lines < 100);
 
   strncpy(lines[num_lines], line, 1000);
