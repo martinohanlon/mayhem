@@ -89,7 +89,9 @@ struct vaisseau_data {
   bool landed;
   bool rebound;
   ALLEGRO_BITMAP *sprite_ptr; // Image du vaisseau
+  ALLEGRO_BITMAP *last_sprite_ptr; // Last sprite drawn
   ALLEGRO_BITMAP *sprite_buffer_rota;
+  int sprite_buffer_rota_angle;  
   collision_map coll_map;
   struct vaisseau_gfx *gfx;
   struct tir_data tir[MAX_TIR];

@@ -43,12 +43,10 @@ void draw_basic_player_view(struct player_view *v, int nbviews,
     set_clip(v->back_map_buffer, 0, 0, v->w + 2 * v->bordersize,
              v->h + 2 * v->bordersize);
     clear_bitmap(v->back_map_buffer);
-    hline(v->back_map_buffer, 0, 0, v->w + 2 * v->bordersize, color);
-    hline(v->back_map_buffer, 0, v->h + 2 * v->bordersize - 1,
-          v->w + 2 * v->bordersize, color);
-    vline(v->back_map_buffer, 0, 0, v->h + 2 * v->bordersize, color);
-    vline(v->back_map_buffer, v->w + 2 * v->bordersize - 1, 0,
-          v->h + 2 * v->bordersize, color);
+
+  	al_draw_rectangle(0.5, 0.5, 
+  		v->w + 2 * v->bordersize - 1, v->h + 2 * v->bordersize,
+	  	color, 1);
 
     char buffer[20];
 
@@ -76,10 +74,8 @@ void draw_basic_player_view(struct player_view *v, int nbviews,
     else
       sprintf(buffer, "Live(s): %d", v->player->nblives);
 
-    textout(v->back_map_buffer, GameManager::font, v->player->name, 3, 2,
-            color);
-    textout(v->back_map_buffer, GameManager::font, buffer, v->bordersize + 195,
-            2, color);
+  	al_draw_text(GameManager::font, color, 3, 2, 0, v->player->name);
+  	al_draw_text(GameManager::font, color, v->bordersize + 195, 2, 0, buffer);
 
     int barheight_fuel = v->h * ship->fuel / ship->max_fuel;
     int barheight_shield = v->h * ship->shield_force / ship->max_shield_force;
@@ -113,25 +109,12 @@ void draw_basic_player_view(struct player_view *v, int nbviews,
       shield_col = al_map_rgb(255, shield_col_g, 0);
     }
 
-    vline(v->back_map_buffer, (v->bordersize / 2) + 1, v->h + v->bordersize,
-          v->bordersize + (v->h - barheight_fuel), fuel_col);
-    vline(v->back_map_buffer, v->bordersize / 2, v->h + v->bordersize,
-          v->bordersize + (v->h - barheight_fuel), fuel_col);
-    vline(v->back_map_buffer, v->w + v->bordersize + v->bordersize / 2,
-          v->h + v->bordersize, v->bordersize + (v->h - barheight_shield),
-          shield_col);
-    vline(v->back_map_buffer, v->w + v->bordersize + (v->bordersize / 2) - 1,
-          v->h + v->bordersize, v->bordersize + (v->h - barheight_shield),
-          shield_col);
-    // thicker shield line
-    if (ship->option_type == OPT_SLOWSHIELD) {
-      vline(v->back_map_buffer, v->w + v->bordersize + (v->bordersize / 2) - 2,
-            v->h + v->bordersize, v->bordersize + (v->h - barheight_shield),
-            shield_col);
-      vline(v->back_map_buffer, v->w + v->bordersize + (v->bordersize / 2) - 3,
-            v->h + v->bordersize, v->bordersize + (v->h - barheight_shield),
-            shield_col);
-    }
+	  al_draw_line((v->bordersize / 2) + 0.5, v->h + v->bordersize + 0.5, 
+		  (v->bordersize / 2) + 0.5,  v->bordersize + (v->h - barheight_fuel) +0.5, fuel_col, 2);
+	
+  	al_draw_line(v->w + v->bordersize + (v->bordersize / 2) - 0.5, v->h + v->bordersize + 0.5, 
+	  	v->w + v->bordersize + (v->bordersize / 2) - 0.5,  v->bordersize + (v->h - barheight_shield) + 0.5, shield_col, ship->option_type == OPT_SLOWSHIELD ? 4 : 2);
+
     // reset clip after
     set_clip(v->back_map_buffer, v->bordersize, v->bordersize, v->w + v->bordersize, v->h + v->bordersize);
     v++;
@@ -141,9 +124,16 @@ void draw_basic_player_view(struct player_view *v, int nbviews,
 void rotate_sprite(struct player_view *v) {
   struct vaisseau_data *ship = v->player->ship;
 
-  clear_bitmap(ship->sprite_buffer_rota);
-  rotate_sprite(ship->sprite_buffer_rota, ship->sprite_ptr, 0, 0,
-                itofix(ship->angle));
+  //does ship sprite need updating?
+  if (ship->sprite_buffer_rota_angle != ship->angle || 
+    ship->sprite_ptr != ship->last_sprite_ptr) {
+
+    clear_bitmap(ship->sprite_buffer_rota);
+    rotate_sprite(ship->sprite_buffer_rota, ship->sprite_ptr, 0, 0,
+                  itofix(ship->angle));
+    ship->sprite_buffer_rota_angle = ship->angle;
+    ship->last_sprite_ptr = ship->sprite_ptr;
+  }
 }
 
 void display_rotate_sprites(struct player_view allviews[], int nbviews,

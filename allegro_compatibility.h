@@ -53,4 +53,6 @@ bool get_desktop_resolution(int adapter, int *w, int *h);
 
 ALLEGRO_BITMAP *load_memory_bitmap(const char *file);
 
+void alc_set_target_bitmap(ALLEGRO_BITMAP *mytargetbitmap);
+
 #endif // ALLEGRO_COMPATIBILITY_H
