@@ -16,7 +16,7 @@
 
 #define CHECKFPS
 
-#define SHOWDEBUG
+//#define SHOWDEBUG
 
 #define FULLSCREEN
 
