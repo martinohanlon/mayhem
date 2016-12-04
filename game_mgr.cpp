@@ -16,6 +16,8 @@
 
 #define CHECKFPS
 
+#define SHOWDEBUG
+
 #define FULLSCREEN
 
 #ifdef FULLSCREEN
@@ -35,11 +37,19 @@ int GameManager::FPS = 65;
 XC_STATE *GameManager::joysticks[MAX_NUM_CONTROLLERS] = {0};
 int GameManager::num_joysticks_loaded = 0;
 
+//debug 
+float GameManager::debug_start = 0;
+float GameManager::debug_time = 0;
+
 void GameManager::Init() {
   if (!al_init()) {
     fprintf(stderr, "failed to initialize allegro!\n");
     return;
   }
+
+  uint32_t version = al_get_allegro_version();
+  printf("Allegro started version %i.%i.%i[%i]\n", version >> 24,
+      (version >> 16) & 255, (version >> 8) & 255, version & 255);  
 
   if (!al_install_keyboard()) {
     fprintf(stderr, "failed to initialize the keyboard!\n");
@@ -100,6 +110,14 @@ void GameManager::Init() {
   al_hide_mouse_cursor(GameManager::display);
 }
 
+void GameManager::StartDebugTime() {
+	GameManager::debug_start = al_get_time();
+}
+
+void GameManager::EndDebugTime() {
+	GameManager::debug_time = al_get_time() - GameManager::debug_start;
+}
+
 void GameManager::ChangeScreenRes(int width, int height) {
   if (al_resize_display(GameManager::display, width, height)) {
     display_width = width;
@@ -116,17 +134,21 @@ void GameManager::Shutdown() {
     delete GameManager::joysticks[i];
 }
 
-#ifdef CHECKFPS
 double old_time = 0.0;
 double tick_time = 0.0;
 double tick_fps = 0.0;
 
+#ifdef CHECKFPS
 void draw_fps(ALLEGRO_BITMAP *screen_buffer) {
   double new_time = al_get_time();
   char fps[100];
-  sprintf(fps, "goal fps:%d, draw fps:%.1f, tick ms:%.1f, tick fps: %.1f",
+  #ifdef SHOWDEBUG
+  sprintf(fps, "goal fps:%d, draw fps:%.1f, tick ms:%.1f, tick fps: %.1f, debug time %.1f",
           GameManager::FPS, 1.0 / (new_time - old_time), 1000.0 * tick_time,
-          tick_fps);
+          tick_fps, 1000 * GameManager::debug_time);
+  #else
+  sprintf(fps, "fps:%.1f", 1.0 / (new_time - old_time));
+  #endif
   textout(screen_buffer, GameManager::font, fps, 105, 5,
           al_map_rgb(200, 200, 200));
   char reso[100];

@@ -42,6 +42,10 @@ public:
   static int FPS;
   static XC_STATE *joysticks[MAX_NUM_CONTROLLERS];
   static int num_joysticks_loaded;
+  static float debug_start;
+  static float debug_time;
+  static void StartDebugTime();
+  static void EndDebugTime();
 };
 
 #endif
