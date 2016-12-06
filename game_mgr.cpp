@@ -16,7 +16,7 @@
 
 #define CHECKFPS
 
-//#define SHOWDEBUG
+#define SHOWDEBUG
 
 #define FULLSCREEN
 
@@ -25,6 +25,11 @@
 #else
 #define GFXOPENARG ALLEGRO_WINDOWED
 #endif
+
+/*  write to a buffer before the screen
+    On x86 / windows a double buffer impacts performance
+    On Raspberry Pi, no double buffer results in screen flicker*/
+//#define DOUBLEBUFFER
 
 // initialise static members
 int GameManager::display_height;
@@ -177,8 +182,12 @@ void GameManager::Run(GameSequence *aSeq) {
   al_register_event_source(event_queue, xc_get_event_source());
 
   ALLEGRO_BITMAP *screen_buffer;
+#ifdef DOUBLEBUFFER
   screen_buffer =
       al_create_bitmap(GameManager::display_width, GameManager::display_height);
+#else
+  screen_buffer = al_get_backbuffer(GameManager::display);
+#endif
   al_set_target_bitmap(screen_buffer);
   al_clear_to_color(al_map_rgb(0, 0, 0));
 
@@ -254,8 +263,10 @@ void GameManager::Run(GameSequence *aSeq) {
     */
 
     draw_fps(screen_buffer);
+#ifdef DOUBLEBUFFER
     al_set_target_bitmap(al_get_backbuffer(GameManager::display));
     al_draw_bitmap(screen_buffer, 0, 0, 0);
+#endif
     al_flip_display();
 
     if (doexit) {
