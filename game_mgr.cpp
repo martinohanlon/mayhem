@@ -26,8 +26,8 @@
 #define GFXOPENARG ALLEGRO_WINDOWED
 #endif
 
-/*  write to a buffer before the screen
-    On x86 / windows a double buffer impacts performance
+/*  write to a double buffer before the screen
+    On x86 / windows a double buffer slow performance
     On Raspberry Pi, no double buffer results in screen flicker*/
 //#define DOUBLEBUFFER
 
