@@ -1,15 +1,15 @@
-CPP  = mingw32-g++.exe
-CC   = mingw32-gcc.exe
+CPP = mingw32-g++.exe
+CC = mingw32-gcc.exe
 RES  = 
-OBJ  = battle_sequence.o collision.o command.o game_mgr.o intro_sequence.o player_input.o mapping_key.o mapping_joy.o Mayhem2.o option.o physics.o platform_data.o player_info.o player_view.o soundfx.o utils.o vaisseau_data.o vaisseau_gfx.o $(RES)
-LINKOBJ  = battle_sequence.o collision.o command.o game_mgr.o intro_sequence.o player_input.o mapping_key.o mapping_joy.o Mayhem2.o option.o physics.o platform_data.o player_info.o player_view.o soundfx.o utils.o vaisseau_data.o vaisseau_gfx.o $(RES)
-LIBS =  -L"C:\Users\Mart\Documents\GitHub\mayhem" -lalleg -luser32 -lgdi32 -lopengl32 -lglu32 -mwindows
+OBJ  = allegro_compatibility.o battle_sequence.o collision.o command.o game_mgr.o intro_sequence.o player_input.o mapping_key.o mapping_joy.o menuhandler.o Mayhem2.o option.o physics.o platform_data.o player_info.o player_view.o soundfx.o ticktimer.o utils.o vaisseau_data.o vaisseau_gfx.o xc.o $(RES)
+LINKOBJ  = allegro_compatibility.o battle_sequence.o collision.o command.o game_mgr.o intro_sequence.o player_input.o mapping_key.o mapping_joy.o menuhandler.o Mayhem2.o option.o physics.o platform_data.o player_info.o player_view.o soundfx.o ticktimer.o utils.o vaisseau_data.o vaisseau_gfx.o xc.o $(RES)
+LIBS = -L"C:\Users\mart\Documents\GitHub\mayhem-allegro5" -lallegro-5.2 -lallegro_audio-5.2 -lallegro_image-5.2 -lallegro_primitives-5.2 -lallegro_font-5.2 -lallegro_ttf-5.2 -lallegro_acodec-5.2 -mwindows
 INCS = 
-#CXXINCS =  -I"C:\cygwin\usr\i686-pc-mingw32\sys-root\mingw\include" -I"C:\Users\scala\Desktop\Mayhem\mayhem\allegro442_include"
-CXXINCS =  -I"C:\MinGW\include" -I"C:\Users\Mart\Documents\GitHub\mayhem\allegro442_include"
 BIN  = "Mayhem2.exe"
-CXXFLAGS = $(CXXINCS) -Werror -Wno-write-strings -Wno-deprecated-declarations
-CFLAGS = $(INCS) -Werror -Wno-write-strings -Wno-deprecated-declarations
+CXXINCS= -I"C:\MinGW\include" -I"C:\Users\mart\Documents\GitHub\mayhem-allegro5" -O0 -g -Werror -Wno-write-strings -Wno-deprecated-declarations 
+INCS= -O0 -g -Werror -Wno-write-strings -Wno-deprecated-declarations
+CXXFLAGS = -std=c++11 $(CXXINCS)
+CFLAGS = $(INCS)
 
 .PHONY: all all-before all-after clean clean-custom
 
@@ -20,6 +20,9 @@ clean: clean-custom
 
 $(BIN): $(OBJ)
 	$(CPP) $(LINKOBJ) -o "Mayhem2.exe" $(LIBS)
+
+allegro_compatibility.o: allegro_compatibility.cpp
+	$(CPP) -c allegro_compatibility.cpp -o allegro_compatibility.o $(CXXFLAGS)
 
 battle_sequence.o: battle_sequence.cpp
 	$(CPP) -c battle_sequence.cpp -o battle_sequence.o $(CXXFLAGS)
@@ -45,6 +48,9 @@ mapping_key.o: mapping_key.cpp
 mapping_joy.o: mapping_joy.cpp
 	$(CPP) -c mapping_joy.cpp -o mapping_joy.o $(CXXFLAGS)
 
+menuhandler.o: menuhandler.cpp
+	$(CPP) -c menuhandler.cpp -o menuhandler.o $(CXXFLAGS)
+
 Mayhem2.o: Mayhem2.cpp
 	$(CPP) -c Mayhem2.cpp -o Mayhem2.o $(CXXFLAGS)
 
@@ -69,8 +75,14 @@ soundfx.o: soundfx.cpp
 utils.o: utils.cpp
 	$(CPP) -c utils.cpp -o utils.o $(CXXFLAGS)
 
+ticktimer.o: ticktimer.cpp
+	$(CPP) -c ticktimer.cpp -o ticktimer.o $(CXXFLAGS)
+
 vaisseau_data.o: vaisseau_data.cpp
 	$(CPP) -c vaisseau_data.cpp -o vaisseau_data.o $(CXXFLAGS)
 
 vaisseau_gfx.o: vaisseau_gfx.cpp
 	$(CPP) -c vaisseau_gfx.cpp -o vaisseau_gfx.o $(CXXFLAGS)
+
+xc.o: xc.cpp
+	$(CPP) -c xc.cpp -o xc.o $(CXXFLAGS)
