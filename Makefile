@@ -3,10 +3,10 @@ CC = mingw32-gcc.exe
 RES  = 
 OBJ  = allegro_compatibility.o battle_sequence.o collision.o command.o game_mgr.o intro_sequence.o player_input.o mapping_key.o mapping_joy.o menuhandler.o Mayhem2.o option.o physics.o platform_data.o player_info.o player_view.o soundfx.o ticktimer.o utils.o vaisseau_data.o vaisseau_gfx.o xc.o $(RES)
 LINKOBJ  = allegro_compatibility.o battle_sequence.o collision.o command.o game_mgr.o intro_sequence.o player_input.o mapping_key.o mapping_joy.o menuhandler.o Mayhem2.o option.o physics.o platform_data.o player_info.o player_view.o soundfx.o ticktimer.o utils.o vaisseau_data.o vaisseau_gfx.o xc.o $(RES)
-LIBS = -L"C:\Users\mart\Documents\GitHub\mayhem-allegro5" -lallegro-5.2 -lallegro_audio-5.2 -lallegro_image-5.2 -lallegro_primitives-5.2 -lallegro_font-5.2 -lallegro_ttf-5.2 -lallegro_acodec-5.2 -mwindows
+LIBS = -L"C:\Users\mart\Documents\GitHub\mayhem" -lallegro-5.2 -lallegro_audio-5.2 -lallegro_image-5.2 -lallegro_primitives-5.2 -lallegro_font-5.2 -lallegro_ttf-5.2 -lallegro_acodec-5.2 -mwindows
 INCS = 
 BIN  = "Mayhem2.exe"
-CXXINCS= -I"C:\MinGW\include" -I"C:\Users\mart\Documents\GitHub\mayhem-allegro5" -O0 -g -Werror -Wno-write-strings -Wno-deprecated-declarations 
+CXXINCS= -I"C:\MinGW\include" -I"C:\Users\mart\Documents\GitHub\mayhem" -O0 -g -Werror -Wno-write-strings -Wno-deprecated-declarations 
 INCS= -O0 -g -Werror -Wno-write-strings -Wno-deprecated-declarations
 CXXFLAGS = -std=c++11 $(CXXINCS)
 CFLAGS = $(INCS)

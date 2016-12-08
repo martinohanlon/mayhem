@@ -16,7 +16,7 @@
 
 #define CHECKFPS
 
-#define SHOWDEBUG
+//#define SHOWDEBUG
 
 #define FULLSCREEN
 
@@ -146,15 +146,15 @@ double tick_fps = 0.0;
 #ifdef CHECKFPS
 void draw_fps(ALLEGRO_BITMAP *screen_buffer) {
   double new_time = al_get_time();
-  char fps[100];
+  char info[100];
   #ifdef SHOWDEBUG
-  sprintf(fps, "goal fps:%d, draw fps:%.1f, tick ms:%.1f, tick fps: %.1f, debug time %.1f",
+  sprintf(info, "goal fps:%d, draw fps:%.1f, tick ms:%.1f, tick fps: %.1f, debug time %.1f",
           GameManager::FPS, 1.0 / (new_time - old_time), 1000.0 * tick_time,
           tick_fps, 1000 * GameManager::debug_time);
   #else
-  sprintf(fps, "fps:%.1f", 1.0 / (new_time - old_time));
+  sprintf(info, "fps:%.1f", tick_fps);
   #endif
-  textout(screen_buffer, GameManager::font, fps, 105, 5,
+  textout(screen_buffer, GameManager::font, info, 105, 5,
           al_map_rgb(200, 200, 200));
   char reso[100];
   sprintf(reso, "%ix%i", GameManager::display_width,
@@ -253,6 +253,7 @@ void GameManager::Run(GameSequence *aSeq) {
       tick_fps = 1.0 / (now - last_time);
       last_time = now;
       tick_time = al_get_time() - now;
+
     }
 
     // joy debug
@@ -263,6 +264,7 @@ void GameManager::Run(GameSequence *aSeq) {
     */
 
     draw_fps(screen_buffer);
+
 #ifdef DOUBLEBUFFER
     al_set_target_bitmap(al_get_backbuffer(GameManager::display));
     al_draw_bitmap(screen_buffer, 0, 0, 0);
