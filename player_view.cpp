@@ -337,7 +337,7 @@ void draw_explosion(struct player_info *allpi, struct platform_data *plats,
   int i;
   int j;
   for (i = 0; i < nombre_vaisseau; i++) {
-    if (allpi[i].ship->explode)
+    if (allpi[i].ship->explode) {
       if (allpi[i].ship->explode_count < (48 * 0.025)) {
         draw_sprite(
             currentlevel->level_buffer,
@@ -368,6 +368,7 @@ void draw_explosion(struct player_info *allpi, struct platform_data *plats,
           allpi[i].nblives--;
         }
       }
+    }
   }
 }
 
