@@ -345,15 +345,14 @@ void draw_explosion(struct player_info *allpi, struct platform_data *plats,
             allpi[i].ship->xpos, allpi[i].ship->ypos);
 
         // if the ship has exploded across the gap, draw it on the other side
-        if (currentlevel->edgedata.wrapx)
-          if ((currentlevel->edgedata.wrapx) &&
-              (allpi[i].ship->xpos + 32 > currentlevel->edgedata.rightx)) {
-            draw_sprite(
-                currentlevel->level_buffer,
-                get_sprite_explosion_frame(allpi[i].ship->explode_count * 40),
-                allpi[i].ship->xpos - al_get_bitmap_width(currentlevel->bitmap),
-                allpi[i].ship->ypos);
-          }
+        if (currentlevel->edgedata.wrapx &&
+            (allpi[i].ship->xpos + 32 > currentlevel->edgedata.rightx)) {
+          draw_sprite(
+              currentlevel->level_buffer,
+              get_sprite_explosion_frame(allpi[i].ship->explode_count * 40),
+              allpi[i].ship->xpos - al_get_bitmap_width(currentlevel->bitmap),
+              allpi[i].ship->ypos);
+        }
         allpi[i].ship->explode_count += dt;
         allpi[i].ship->explode_tick++;
       } else {
