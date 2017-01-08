@@ -16,5 +16,5 @@ void cleanup_vaisseau_gfx(struct vaisseau_gfx *vaisseau);
 int init_sprite_explosion(const char *bmpname);
 ALLEGRO_BITMAP *get_sprite_explosion();
 void cleanup_sprite_explosion();
-ALLEGRO_BITMAP *get_sprite_explosion_frame(int i);
+ALLEGRO_BITMAP *get_sprite_explosion_frame(double curr_time, double end_time);
 #endif
