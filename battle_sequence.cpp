@@ -441,7 +441,7 @@ GameSequence *BattleSequence::doTick(ALLEGRO_BITMAP *screen_buffer,
 
     if (use_dca) {
       for (i = 0; i < nb_players; i++)
-        gestion_dca(&currentlevel->alldca[0], &vaisseaux[i], currentlevel);
+        gestion_dca(&currentlevel->alldca[0], &vaisseaux[i], currentlevel, dt);
     }
 
     draw_explosion(players, currentlevel->platformdata, nb_players,

@@ -607,7 +607,7 @@ void init_dca_tir(struct dca_data *dca, struct vaisseau_data *v) {
   }
 }
 
-void plot_dca_tir(struct dca_data *dca, struct level_data *currentlevel) {
+void plot_dca_tir(struct dca_data *dca, struct level_data *currentlevel, double dt) {
   struct tir_data *dca_tir;
   int w = al_get_bitmap_width(currentlevel->collision_bitmap);
   int h = al_get_bitmap_height(currentlevel->collision_bitmap);
@@ -625,8 +625,8 @@ void plot_dca_tir(struct dca_data *dca, struct level_data *currentlevel) {
     put_big_pixel(currentlevel->level_buffer, dca_tir->x, dca_tir->y,
                   currentlevel->particle_color);
 
-    dca_tir->xposprecise = fixadd(dca_tir->xposprecise, dca_tir->dx);
-    dca_tir->yposprecise = fixadd(dca_tir->yposprecise, dca_tir->dy);
+    dca_tir->xposprecise = fixadd(dca_tir->xposprecise, dca_tir->dx * (dt / 0.025));
+    dca_tir->yposprecise = fixadd(dca_tir->yposprecise, dca_tir->dy * (dt / 0.025));
     dca_tir->x = fixtoi(dca_tir->xposprecise);
     dca_tir->y = fixtoi(dca_tir->yposprecise);
 
@@ -644,11 +644,11 @@ void plot_dca_tir(struct dca_data *dca, struct level_data *currentlevel) {
 }
 
 void gestion_dca(struct dca_data *dca, struct vaisseau_data *v,
-                 struct level_data *currentlevel) {
+                 struct level_data *currentlevel, double dt) {
 
   for (int i = 0; i < NB_DCA; i++) {
     init_dca_tir(dca, v);
-    plot_dca_tir(dca, currentlevel);
+    plot_dca_tir(dca, currentlevel, dt);
     if (dca->shoot) {
       dca->delayed++;
       if (dca->delayed > dca->delay) {
