@@ -205,7 +205,7 @@ void BattleSequence::InitLevelData() {
   case 4:
     init_level_data(&levels[4], "assets/level5/Mayhem_Level5_Map_256c.bmp",
                     "assets/level5/Mini_map5.bmp",
-                    "assets/level5/Mayhem_Level5_Map_256c.bmp", platforms5,
+                    "assets/level5/Mayhem_Level5_Collision.bmp", platforms5,
                     numplatforms5, edgedata5, shipsassets,
                     "assets/default/Sprite_explosion.bmp", use_dca,
                     wall_collision, particle_color_rgb);
