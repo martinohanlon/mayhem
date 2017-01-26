@@ -76,6 +76,8 @@ void xc_clear_state(XC_STATE *state) {
 void setup_controller_map(XC_STATE *state) {
   if (strstr(al_get_joystick_name(state->joy), "XInput Joystick") != NULL)
     setup_xinput_controller_map(state);
+  else if (strstr(al_get_joystick_name(state->joy), "usb gamepad") != NULL)
+    setup_usbgamepad_controller_map(state);
   else
     setup_default_controller_map(state);
 }
@@ -164,6 +166,51 @@ void setup_xinput_controller_map(XC_STATE *state) {
   state->controls_map.stick_map[3][0].trigger = true;
   state->controls_map.stick_map[3][0].position = &state->right_trigger;
 }
+
+//usb gamepad map 
+void setup_usbgamepad_controller_map(XC_STATE *state) {
+  state->controls_map.num_buttons = 10;
+  state->controls_map.button_map[0] = &state->button_a;
+  state->controls_map.button_map[1] = &state->button_b;
+  state->controls_map.button_map[2] = &state->button_x;
+  state->controls_map.button_map[3] = &state->button_y;
+  state->controls_map.button_map[4] = &state->button_left_shoulder;
+  // the cheap usb gamepads often have different mappings for the right shoulder, sometimes 5 or 6
+  state->controls_map.button_map[5] = &state->button_right_shoulder;
+  state->controls_map.button_map[6] = &state->button_right_shoulder;
+  state->controls_map.button_map[7] = &state->button_xbox;
+  state->controls_map.button_map[8] = &state->button_back;
+  state->controls_map.button_map[9] = &state->button_start;
+  
+  //sticks
+  state->controls_map.num_sticks = 4;
+  // left stick 
+  state->controls_map.stick_map[0][0].analog_output = true;
+  state->controls_map.stick_map[0][0].position = &state->left_stick_x;
+  state->controls_map.stick_map[0][1].analog_output = true;
+  state->controls_map.stick_map[0][1].position = &state->left_stick_y;
+  //right stick 
+  state->controls_map.stick_map[1][1].analog_output = true;
+  state->controls_map.stick_map[1][1].position = &state->right_stick_x;
+  state->controls_map.stick_map[2][0].analog_output = true;
+  state->controls_map.stick_map[2][0].position = &state->right_stick_y;
+  //left trigger
+  state->controls_map.stick_map[1][0].analog_output = true;
+  state->controls_map.stick_map[1][0].trigger = true;
+  state->controls_map.stick_map[1][0].position = &state->left_trigger;
+  //right trigger
+  state->controls_map.stick_map[2][1].analog_output = true;
+  state->controls_map.stick_map[2][1].trigger = true;
+  state->controls_map.stick_map[2][1].position = &state->right_trigger;
+  //dpad
+  state->controls_map.stick_map[3][0].analog_output = false;
+  state->controls_map.stick_map[3][0].negative = &state->dpad_left;
+  state->controls_map.stick_map[3][0].positive = &state->dpad_right;
+  state->controls_map.stick_map[3][1].analog_output = false;
+  state->controls_map.stick_map[3][1].negative = &state->dpad_up;
+  state->controls_map.stick_map[3][1].positive = &state->dpad_down;
+}
+
 
 /*
  * Gets the state for a controller.

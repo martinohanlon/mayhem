@@ -64,4 +64,5 @@ ALLEGRO_EVENT_SOURCE *xc_get_event_source();
 void setup_controller_map(XC_STATE *state);
 void setup_default_controller_map(XC_STATE *state);
 void setup_xinput_controller_map(XC_STATE *state);
+void setup_usbgamepad_controller_map(XC_STATE *state);
 #endif
