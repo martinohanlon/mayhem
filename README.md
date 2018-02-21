@@ -1,8 +1,8 @@
-#Mayhem 2 
-##Martin O'Hanlon (martin@ohanlonweb.com)
-##http://www.stuffaboutcode.com
+# Mayhem 2 
+## Martin O'Hanlon (martin@ohanlonweb.com)
+## http://www.stuffaboutcode.com
 
-##Description
+## Description
 
 Mayhem 2 is a multiplayer (2 - 4) flight shooter with a really simple objective - destroy your opponents before they destroy you.
 
@@ -22,7 +22,7 @@ Mayhem 2 has also been ported to run on the [Raspberry Pi](https://www.raspberry
 
 [Blog post](http://www.stuffaboutcode.com/2016/04/mayhem-classic-amiga-game-ported-to.html)
 
-##Gameplay
+## Gameplay
 
 Destroy your opponents by shooting them, you win when all other players have run out of lives.
 
@@ -32,7 +32,7 @@ You can protect yourself from attack using your shields which will stop all bull
 
 Powerups are dropped (sometimes) when a player is destroyed (by either crashing or being shot) and when collected will give you a temporary boost.
 
-###Options
+### Options
 
 Levels 1-3 are the original game levels, all other levels are new to Mayhem 2.
 
@@ -40,9 +40,9 @@ DCA are anti spaceship guns which will fire at the player if they get too close.
 
 Wall collision can be turned off for new players to get used to the controls and playing the game.
 
-##Controls
+## Controls
 
-###Joysticks
+### Joysticks
 
 Default joystick controls, assume an "xbox / ps like" joystick:
 
@@ -55,7 +55,7 @@ Button 6 (RB) | Fire
 
 Joystick controls can changed using the menu.
 
-###Keys
+### Keys
 
 If joysticks are connected, they are used as the players controls, if there are less than 4 joysticks connected, keys are used for the rest of the players in order:
 
@@ -66,21 +66,21 @@ Key | Left | Right | Shield | Thrust | Fire
 3 | b | n | , | m | l
 4 | y | u | o | i | 0
 
-##Install
+## Install
 
 Download the zip file from [https://github.com/martinohanlon/mayhem/archive/master.zip](https://github.com/martinohanlon/mayhem/archive/master.zip), open and copy mayhem-master to a folder. 
 
-##Run
+## Run
 
 Double click Mayhem2.exe in the mayhem-master folder. 
 
 You maybe presented with message saying that the application was stopped from starting as it is unrecognised, click 'more info' and and choose 'run anyway'. 
 
-##Compile
+## Compile
 
 Mayhem2 is compiled with [mingw](http://www.mingw.org/), use mingw32-make to build, paths in the MakeFile may need to be changed.
 
-##Version history
+## Version history
 * beta - compiles, runs, ongoing mods
 * 0.1 - added new levels and features
 * 0.2 - seamless warping across map edges
