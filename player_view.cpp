@@ -334,30 +334,32 @@ void put_big_pixel(ALLEGRO_BITMAP *bmp, int x, int y, ALLEGRO_COLOR color) {
 void draw_explosion(struct player_info *allpi, struct platform_data *plats,
                     int nombre_vaisseau, struct level_data *currentlevel,
                     double dt) {
-  int i;
-  int j;
-  for (i = 0; i < nombre_vaisseau; i++) {
-    if (allpi[i].ship->explode)
-      if (allpi[i].ship->explode_count < (48 * 0.025)) {
+  constexpr double EXPLODE_TIME_SECS = 5;
+  constexpr double EXPLODE_DRAW_TIME_SECS = 1.2;
+
+  for (int i = 0; i < nombre_vaisseau; i++) {
+    if (allpi[i].ship->explode) {
+      if (allpi[i].ship->explode_count < EXPLODE_DRAW_TIME_SECS) {
+        auto sprite = get_sprite_explosion_frame(allpi[i].ship->explode_count, EXPLODE_DRAW_TIME_SECS);
+
         draw_sprite(
             currentlevel->level_buffer,
-            get_sprite_explosion_frame(allpi[i].ship->explode_count * 40),
+            sprite,
             allpi[i].ship->xpos, allpi[i].ship->ypos);
 
         // if the ship has exploded across the gap, draw it on the other side
-        if (currentlevel->edgedata.wrapx)
-          if ((currentlevel->edgedata.wrapx) &&
-              (allpi[i].ship->xpos + 32 > currentlevel->edgedata.rightx)) {
-            draw_sprite(
-                currentlevel->level_buffer,
-                get_sprite_explosion_frame(allpi[i].ship->explode_count * 40),
-                allpi[i].ship->xpos - al_get_bitmap_width(currentlevel->bitmap),
-                allpi[i].ship->ypos);
-          }
+        if (currentlevel->edgedata.wrapx &&
+            (allpi[i].ship->xpos + 32 > currentlevel->edgedata.rightx)) {
+          draw_sprite(
+              currentlevel->level_buffer,
+              sprite,
+              allpi[i].ship->xpos - al_get_bitmap_width(currentlevel->bitmap),
+              allpi[i].ship->ypos);
+        }
         allpi[i].ship->explode_count += dt;
         allpi[i].ship->explode_tick++;
       } else {
-        if (allpi[i].ship->explode_count < 200 * 0.025) {
+        if (allpi[i].ship->explode_count < EXPLODE_TIME_SECS) {
           allpi[i].ship->explode_count += dt;
           allpi[i].ship->explode_tick++;
         } else {
@@ -369,6 +371,7 @@ void draw_explosion(struct player_info *allpi, struct platform_data *plats,
           allpi[i].nblives--;
         }
       }
+    }
   }
 }
 

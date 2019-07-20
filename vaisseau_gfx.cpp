@@ -1,6 +1,7 @@
 #include "vaisseau_gfx.h"
 
 #include "allegro_compatibility.h"
+#include <cmath>
 
 bool init_vaisseau_gfx_from_file(struct vaisseau_gfx *vaisseau, const char *normal,
                                  const char *thrust, const char *thrust2, const char *shield) {
@@ -27,8 +28,9 @@ void cleanup_vaisseau_gfx(struct vaisseau_gfx *vaisseau) {
     al_destroy_bitmap(vaisseau->sprite_thrust2);
 }
 
+#define NUM_EXPLOSION_FRAMES 24
 ALLEGRO_BITMAP *sprite_explode;
-ALLEGRO_BITMAP *sprite_explosion_frames[24];
+ALLEGRO_BITMAP *sprite_explosion_frames[NUM_EXPLOSION_FRAMES];
 
 int init_sprite_explosion(const char *bmpname) {
   sprite_explode = al_load_bitmap(bmpname);
@@ -45,13 +47,19 @@ int init_sprite_explosion(const char *bmpname) {
 
 void cleanup_sprite_explosion() {
   int i;
-  for (i = 0; i < 24; i++)
+  for (i = 0; i < NUM_EXPLOSION_FRAMES; i++)
     al_destroy_bitmap(sprite_explosion_frames[i]);
   al_destroy_bitmap(sprite_explode);
 }
 
 ALLEGRO_BITMAP *get_sprite_explosion() { return sprite_explode; }
 
-ALLEGRO_BITMAP *get_sprite_explosion_frame(int i) {
-  return sprite_explosion_frames[i / 2];
+ALLEGRO_BITMAP *get_sprite_explosion_frame(double curr_time, double end_time) {
+  assert(curr_time <= end_time);
+  assert(curr_time >= 0);
+  assert(end_time >= 0);
+
+  size_t index = static_cast<size_t>(std::round((NUM_EXPLOSION_FRAMES-1) * curr_time/end_time));
+
+  return sprite_explosion_frames[index];
 }
